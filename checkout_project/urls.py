@@ -26,9 +26,8 @@ urlpatterns = [
 
     # path('', TemplateView.as_view(template_name='base/base.html')),
 
-    path('', include('product.urls')),
     path('order/', include('orders.urls')),
-    path('supervisor/', include('superadmin.urls')),
+    path('', include('superadmin.urls')),
 
 
     path('faqs/', TemplateView.as_view(template_name='pages/faqs.html')),

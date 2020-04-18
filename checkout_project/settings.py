@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # My Apps
-    'product',
     'orders',
     'superadmin',
 ]
