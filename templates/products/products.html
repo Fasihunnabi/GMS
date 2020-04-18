@@ -1,0 +1,118 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block css_block %}
+    <style>
+
+        .product-image > a img {
+            display: block;
+            transition: transform .4s; /* smoother zoom */
+        }
+
+        .product-image:hover > a img {
+            transform: scale(1.3);
+            transform-origin: 50% 50%;
+        }
+
+    </style>
+{% endblock css_block %}
+
+
+{% block content %}
+
+    {% if products_list %}
+        <!-- Content
+        ============================================= -->
+        <section id="content">
+
+            <div class="content-wrap">
+
+                <div class="container clearfix">
+
+                    <div class="divider divider-center"><i class="icon-circle"></i></div>
+
+                    <div class="heading-block" style="text-align: center">
+                        <h2>{{ category }} Collection</h2>
+                        {#                        <span>This is the Sub Title of the Heading Block</span>#}
+                    </div>
+
+                    <div id="shop" class="shop product-4 grid-container clearfix" data-layout="fitRows">
+
+                        {% for object in products_list %}
+                            <div id="" class="product clearfix">
+                                <div class="product-image">
+                                    {% if object.productimage_set.all %}
+                                        <a href="/product-description/{{ object.id }}">
+                                        <img src="{{ object.productimage_set.all.0.image.url }}"
+                                                         alt="Image Not Loaded"></a>
+                                    {% else %}
+                                        <a href="/product-description/{{ object.id }}"><img src="{% static 'images/no_image.png' %}"
+                                                         alt="Image Not Loaded"></a>
+                                    {% endif %}
+                                    {% if object.sale_price < object.original_price  %}
+                                        <div class="sale-flash">SALE</div>
+                                    {% endif %}
+
+                                    <div class="product-overlay">
+    {#                                    <a href="#" class="add-to-cart" style="width: 50% !important;"><i#}
+    {#                                            class="icon-shopping-cart"></i><span> Add to Cart</span></a>#}
+                                        <a href="/product-description/{{ object.id }}"><i
+                                                class="icon-zoom-in2"></i><span>View Full Description</span></a>
+                                    </div>
+                                </div>
+                                <div class="product-desc center">
+                                    <div class="product-title"><h3><a href="/product-description/{{ object.id }}">{{ object.name|upper }}</a></h3></div>
+                                    <!--<div class="product-rating">
+                                        <i class="icon-star3"></i>
+                                        <i class="icon-star3"></i>
+                                        <i class="icon-star3"></i>
+                                        <i class="icon-star3"></i>
+                                        <i class="icon-star-half-full"></i>
+                                    </div>-->
+                                    {% if object.sale_price != object.original_price  %}
+                                        <div class="product-price"><del>PKR {{ object.original_price }}</del> <ins>PKR {{ object.sale_price }}</ins></div>
+                                    {% else %}
+                                        <div class="product-price"><ins>PKR {{ object.sale_price }}</ins></div>
+                                    {% endif %}
+                                    <div class="product-title"><p>{{ object.description|upper }}</p></div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+
+                    <div class="divider divider-center"><i class="icon-circle"></i></div>
+
+                </div>
+
+            </div>
+
+        </section><!-- #content end -->
+
+    {% else %}
+
+   <!-- Content
+     ============================================= -->
+        <section id="content">
+            <div class="content-wrap">
+                <div class="container clearfix" style="text-align: center">
+
+                    <div class="heading-block" style="text-align: center">
+                        <h2>{{ category }} Collection</h2>
+                    </div>
+
+                    <div class="divider divider-center"><i class="icon-circle"></i></div>
+
+                    <p>Currently There Are No Products In this Collection...</p>
+                    <a href="/" type="button" class="btn btn-success nomargin">Go to HomePage
+                    </a>
+
+                    <div class="divider divider-center"><i class="icon-circle"></i></div>
+
+                </div>
+            </div>
+        </section>
+
+    {% endif %}
+
+{% endblock content %}

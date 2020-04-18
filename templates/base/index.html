@@ -1,0 +1,171 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+
+{% block css_block %}
+    <style>
+
+        .product-image > a img {
+            display: block;
+            transition: transform .4s; /* smoother zoom */
+        }
+
+        .product-image:hover > a img {
+            transform: scale(1.3);
+            transform-origin: 50% 50%;
+        }
+
+    </style>
+{% endblock css_block %}
+
+{% block content %}
+
+    <!-- Content
+		============================================= -->
+    <section id="content">
+        <div class="content-wrap" style="padding-bottom: 0px; padding-top: 100px">
+
+            <div class="container clearfix">
+
+                <div class="col_one_third">
+                    <div class="feature-box fbox-small fbox-plain">
+                        <div class="fbox-icon">
+                            <a href="#"><i class="icon-thumbs-up2"></i></a>
+                        </div>
+                        <h3>100% Original</h3>
+                        <p>We guarantee you the sale of Original Brands.</p>
+                    </div>
+                </div>
+
+                <div class="col_one_third">
+                    <div class="feature-box fbox-small fbox-plain fbox-dark">
+                        <div class="fbox-icon">
+                            <a href="#"><i class="icon-shipping-fast"></i></a>
+                        </div>
+                        <h3>Free Shipping</h3>
+                        <p>Free Delivery to Karachi based Shipping Addresses</p>
+                    </div>
+                </div>
+
+                <div class="col_one_third col_last">
+                    <div class="feature-box fbox-small fbox-plain fbox-light">
+                        <div class="fbox-icon">
+                            <a href="#"><i class="icon-credit-cards"></i></a>
+                        </div>
+                        <h3>Payment Options</h3>
+                        <p>Cash On Delivery</p>
+                    </div>
+                </div>
+
+                <div class="divider"><i class="icon-circle"></i></div>
+
+            </div>
+
+
+        </div>
+    </section><!-- #content end -->
+
+
+
+    <!-- Content
+		============================================= -->
+    <section id="content">
+
+        <div class="content-wrap" style="padding-top: 0px">
+
+            <div class="container clearfix">
+
+                <div class="heading-block " style="text-align: center">
+                    <h2>SHOP BY CATEGORY</h2>
+                    <span>Browse the products, with in these categories</span>
+                </div>
+
+                <!-- Shop
+                ============================================= -->
+                <div id="shop" class="shop product-3 grid-container clearfix " data-layout="fitRows">
+
+                    {% for obj in product_categories %}
+                        <div class="product clearfix">
+                            <div class="product-image" style="min-height: 200px; max-height: 200px; height: 200px">
+                                {% if obj.name|upper == "KIDS" %}
+                                    <a href="/products/{{ obj }}"><img
+                                            src="{% static 'images/category/comingSoon.jpg' %}"
+                                            alt="Image Not Loaded"></a>
+                                    <a href="/products/{{ obj }}"><img
+                                            src="{% static 'images/category/comingSoon2.jpg' %}"
+                                            alt="Image Not Loaded"></a>
+                                    <div class="sale-flash">NOT AVAILABLE FOR NOW</div>
+                                {% endif %}
+
+                                {% if obj.name|upper == "TROUSERS" %}
+                                    <a href="/products/{{ obj }}"><img
+                                            src="{% static 'images/category/trouserMain1.jpg' %}"
+                                            alt="Image Not Loaded"></a>
+                                    <a href="/products/{{ obj }}"><img
+                                            src="{% static 'images/category/trouserMain1.jpg' %}"
+                                            alt="Image Not Loaded"></a>
+                                    <div class="sale-flash">NEW</div>
+                                {% endif %}
+
+                                {% if obj.name|upper == "KURTIS" %}
+                                    <a href="/products/{{ obj }}"><img
+                                            src="{% static 'images/category/kurtiMain1.jpg' %}"
+                                            alt="Image Not Loaded"></a>
+                                    <a href="/products/{{ obj }}"><img
+                                            src="{% static 'images/category/kurtiMain2.jpg' %}"
+                                            alt="Image Not Loaded"></a>
+                                    <div class="sale-flash">NEW</div>
+                                {% endif %}
+
+                                {% if obj.name|upper == "TWOPIECESUITS" %}
+                                    <a href="/products/{{ obj }}"><img
+                                            src="{% static 'images/category/twoPieceMain1.jpg' %}"
+                                            alt="Image Not Loaded"></a>
+                                    <a href="/products/{{ obj }}"><img
+                                            src="{% static 'images/category/twoPieceMain2.jpg' %}"
+                                            alt="Image Not Loaded"></a>
+                                    <div class="sale-flash">NEW</div>
+                                {% endif %}
+
+
+                                <!--<div class="product-overlay">
+                                    <a href="#" class="add-to-cart"><i class="icon-shopping-cart"></i><span> Add to Cart</span></a>
+                                    <a href="/products/{{ obj }}"><i
+                                            class="icon-zoom-in2"></i><span>View All Products</span></a>
+                                </div>-->
+                            </div>
+                            <div class="product-desc center">
+                                <div class="product-title">
+                                    <h3>
+                                        <a href="/products/{{ obj }}">
+                                        {% if obj.name|upper == "TWOPIECESUITS" %}
+                                            TWO PIECE SUITS
+                                        {% else %}
+                                            {{ obj.name|upper }}
+                                        {% endif %}
+                                        </a>
+                                    </h3>
+                                </div>
+                                {#                                    <div class="product-price"><ins>Starting from PKR 999</ins></div>#}
+                                {#                                    <div class="product-rating">#}
+                                {#                                        <i class="icon-star3"></i>#}
+                                {#                                        <i class="icon-star3"></i>#}
+                                {#                                        <i class="icon-star3"></i>#}
+                                {#                                        <i class="icon-star3"></i>#}
+                                {#                                        <i class="icon-star-half-full"></i>#}
+                                {#                                    </div>#}
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div><!-- #shop end -->
+
+                <div class="divider"><i class="icon-circle"></i></div>
+
+            </div>
+
+        </div>
+
+    </section><!-- #content end -->
+
+{% endblock content %}

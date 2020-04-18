@@ -1,0 +1,67 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <!-- Content
+     ============================================= -->
+        <section id="content">
+            <div class="content-wrap">
+                <div class="container clearfix" style="text-align: center">
+
+                    <div class="divider divider-center"><i class="icon-circle"></i></div>
+                    <h3 class="mb-3">Order Placed</h3>
+                    <p>Thank you for your order. We will get back to you shortly</p>
+                    {{ order_object }}<br>
+                    <p>Your Order Number is: {{ order_object.get_order_number }}</p>
+
+                    {% for obj in order_object.order_detail.all %}
+                        <p>Product</p>
+                        <p>Article: {{ obj.sku }}, Quantity {{ obj.order_detail_quantity }}, Total Cost {{ obj.order_detail_price }}</p>
+                    {% endfor %}
+
+                    <div class="divider divider-center"><i class="icon-circle"></i></div>
+
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+
+{% endblock %}
+
+{% block page_js %}
+
+    <script>
+        $(document).ready(function () {
+
+            const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: true,
+                    timer: 3000
+                });
+
+            //alert(window.location.href)
+            var url_string = window.location.href
+            var url = new URL(url_string);
+            var m = url.searchParams.get("done");
+            //alert(m);
+
+            if ( m == "true") {
+                Toast.fire({
+                    type: 'success',
+                    title: 'Order Places Successfully.'
+                });
+            }
+
+
+        });
+
+    </script>
+
+
+{% endblock page_js %}

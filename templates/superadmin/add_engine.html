@@ -1,0 +1,236 @@
+{% extends 'superadmin/base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>{% if status %}Update{% else %}Add {% endif %} Engine</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">{% if status %}Update{% else %}Add {% endif %}Engine</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!--/.col (left) -->
+                <!-- right column -->
+                <div class="col-md-12">
+                    {{ er_message }}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!--/.col (left) -->
+                <!-- right column -->
+                <div class="col-md-12">
+                    <div class="card card-secondary">
+                        <div class="card-header">
+                            <h3 class="card-title">Provide Engine Details Below</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <form role="form" method="POST"> {% csrf_token %}
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Engine Name</label> {{ form.name }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <!-- select -->
+                                        <div class="form-group">
+                                            <label>Engine Owner</label> {{ form.owned_by }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Engine Brand</label> {{ form.Engine_Brand }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Engine DisPlacement</label> {{ form.Engine_Displacement }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Engine Maximum Output</label> {{ form.Engine_Maximum_Output }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <!-- select -->
+                                        <div class="form-group">
+                                            <label>Engine Type</label> {{ form.Engine_Type }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Engine Oil Alert System</label> {{ form.Engine_Oil_Alert_System }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Engine Ignition System</label> {{ form.Engine_Ignition_System }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <!-- select -->
+                                        <div class="form-group">
+                                            <label>Engine Start</label> {{ form.Engine_Start }}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Voltage Regulator</label> {{ form.Voltage_Regulator }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Generator Alternator</label> {{ form.Generator_Alternator }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-sm-3">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Phase</label> {{ form.Phase }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>ACMax Output</label> {{ form.ACMax_Output }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>AC Rated Output</label> {{ form.AC_Rated_Output }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Rated Voltage</label> {{ form.Rated_Voltage }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <!-- select -->
+                                        <div class="form-group">
+                                            <label>DC Output</label> {{ form.DC_Output }}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Rated Power Factor</label> {{ form.Rated_Power_Factor }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Pilot Lamp</label> {{ form.Pilot_Lamp }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <!-- select -->
+                                        <div class="form-group">
+                                            <label>Volt Meter</label> {{ form.Volt_Meter }}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Fuel Tank Capacity</label> {{ form.Fuel_Tank_Capacity }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Continuous Operating
+                                                Hours</label> {{ form.Continuous_Operating_Hours }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <!-- select -->
+                                        <div class="form-group">
+                                            <label>Dimensions LxWxH</label> {{ form.Dimensions_L_W_H }}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Dry_Weight</label> {{ form.Dry_Weight }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-sm-12" style="text-align: right">
+                                        <button type="submit" class="btn btn-primary">{% if status %}Update{% else %}
+                                            Add {% endif %} Engine
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-footer -->
+                        </form>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!--/.col (right) -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+
+{% endblock content %}

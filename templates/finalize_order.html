@@ -1,0 +1,331 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+    {% if products_list %}
+
+        <!-- Content
+     ============================================= -->
+        <section id="content">
+            <div class="content-wrap">
+                <div class="container clearfix">
+
+                    <form action="" method="post">{% csrf_token %}
+                        <div class="divider divider-center"><i class="icon-circle"></i></div>
+                        <div class="form-result" style="text-align: center">
+                            <h3>Review Your Shopping Bag</h3>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table cart">
+                            <thead>
+                            <tr>
+                                <th class="cart-product-remove">&nbsp;</th>
+                                <th class="cart-product-thumbnail">&nbsp;</th>
+                                <th class="cart-product-name">Product</th>
+                                <th class="cart-product-price">Unit Price</th>
+                                <th class="cart-product-quantity">Quantity</th>
+                                <th class="cart-product-subtotal">Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in products_list %}
+                                {#                                            {{ item.productimage_set.all }} All Images of the Product#}
+                                {#                                            {{ item.productimage_set.all.0 }} First Image of the Product#}
+                                {#                                            {{ item.productimage_set.all.0.image.url }} Url of the First Image#}
+                                <tr class="cart_item" name="product">
+                                    <td class="cart-product-remove">
+                                        <a href="" id="{{ item.id }}" class="remove" title="Remove this item"><i
+                                                class="icon-trash2"></i></a>
+                                    </td>
+                                    <td class="cart-product-thumbnail">
+                                        <a><img width="64" height="64"
+                                                src="{{ item.productimage_set.all.0.image.url }}"
+                                                alt="Pink Printed Dress"></a>
+                                    </td>
+                                    <td class="cart-product-name">
+                                        <a href="#">{{ item.name }}</a>
+                                        <p>{{ item.description }}</p>
+                                    </td>
+                                    <td class="cart-product-price">
+                                        {% if item.sale_price < item.original_price %}
+                                            <del>PKR {{ item.original_price }}</del>
+                                            PKR <span class="amount">{{ item.sale_price }}</span>
+                                        {% else %}
+                                            PKR <span class="amount">{{ item.sale_price }}</span>
+                                        {% endif %}
+
+                                    </td>
+                                    <td class="cart-product-quantity">
+                                        <div class="quantity clearfix">
+                                            <input type="button" value="-" class="minus"
+                                                   onclick="minusPressed(this)">
+                                            <input type="text" step="1" min="1" name="quantity" value="1"
+                                                   title="Qty" class="qty" size="4"/>
+                                            <input type="button" value="+" class="plus"
+                                                   onclick="plusPressed(this)">
+                                        </div>
+                                    </td>
+                                    <td class="cart-product-subtotal">
+                                        PKR <span class="amount">{{ item.sale_price }}</span>
+                                    </td>
+                                    <td class="hiddenFields" style="display: none">
+                                        <input name="productID" id="productID" value="{{ item.id }}">
+                                        <input name="productSalePrice" id="productSalePrice" value="{{ item.sale_price }}">
+                                        <input name="productQuantity" id="productQuantity" value="1">
+                                        <input name="productTotalSum" id="productTotalSum" value="{{ item.sale_price }}">
+                                    </td>
+
+
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        </div>
+
+                        <div class="divider divider-center"><i class="icon-circle"></i></div>
+
+                        <div class="form-widget">
+
+                            <div class="form-result" style="text-align: center">
+                                <h3>Enter Shipping Details</h3>
+                            </div>
+
+                            <div class="row shadow bg-light border">
+
+                                <div class="col-lg-4 dark"
+                                     style="background: linear-gradient(rgba(0,0,0,.8), rgba(0,0,0,.2)), url('{% static 'adminLTE/logo.jpg' %}') center center / cover;">
+                                    <!--<h3 class="center mt-5">COCONUT</h3>-->
+                                    <div class="calories-wrap center w-100 px-2">
+                                        <!--<span class="uppercase mb-0 ls2">A Clothing Brand</span>-->
+                                        <h2 id="calories-count"
+                                            class="calories display-3 mb-2 heading-block nobottomborder t600 font-body py-2"></h2>
+                                        <!--<span class="uppercase h6 ls3">Estimated Calories</span>-->
+                                    </div>
+                                    <!--<small class="center m-0 position-absolute" style="bottom: 12px;">Metric Units</small>-->
+                                </div>
+
+                                <div class="col-lg-8 p-5">
+                                    <div class="form-process"></div>
+                                    <div class="col-12 form-group">
+                                        <div class="row">{{ er_message }}</div>
+                                        <div class="row">
+                                            <div class="col-sm-2 col-form-label">
+                                                <label for="customer-name">Name:</label>
+                                            </div>
+                                            <div class="col-sm-10">
+                                                {{ form.customer_name }}
+{#                                                <input type="text" name="customer-name"#}
+{#                                                       id="customer-name"#}
+{#                                                       class="form-control required" value=""#}
+{#                                                       placeholder="Enter your Full Name">#}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <div class="row">
+                                            <div class="col-sm-2 col-form-label">
+                                                <label for="customer-email">Email:</label>
+                                            </div>
+                                            <div class="col-sm-10">
+                                                {{ form.customer_email }}
+{#                                                <input type="email" name="customer-email"#}
+{#                                                       id="customer-email"#}
+{#                                                       class="form-control required" value=""#}
+{#                                                       placeholder="Enter your Email">#}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <div class="row">
+                                            <div class="col-sm-2 col-form-label">
+                                                <label for="customer-phone">Phone:</label>
+                                            </div>
+                                            <div class="col-sm-10">
+                                                {{ form.customer_phone }}
+{#                                                <input type="text" name="customer-phone"#}
+{#                                                       id="customer-phone"#}
+{#                                                       class="form-control required" value=""#}
+{#                                                       placeholder="Your Contact Number">#}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-10 offset-2">
+                                                <label style="color: darkred"> Phone Number Format: (03XXXXXXXXX)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <div class="row">
+                                            <div class="col-sm-2 col-form-label">
+                                                <label for="customer-add">Shipping Address:</label>
+                                            </div>
+                                            <div class="col-sm-10">
+                                                {{ form.shipping_address }}
+{#                                            <textarea type="email" name="customer-add" id="customer-add"#}
+{#                                                      class="form-control required" value="" rows="3"#}
+{#                                                      placeholder="Enter Shipping Address"></textarea>#}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="divider divider-center"><i class="icon-circle"></i></div>
+
+                        <div style="text-align: right">
+                            <button type="submit" class="btn btn-success nomargin">Confirm Order</button>
+                        </div>
+
+                        <div class="divider divider-center"><i class="icon-circle"></i></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    {% else %}
+
+   <!-- Content
+     ============================================= -->
+        <section id="content">
+            <div class="content-wrap">
+                <div class="container clearfix" style="text-align: center">
+
+                    <div class="divider divider-center"><i class="icon-circle"></i></div>
+
+                    <p>There Are No Products In Your Shopping Bag...</p>
+                    <a href="/" type="button" class="btn btn-success nomargin">Continue Shopping
+                    </a>
+
+                    <div class="divider divider-center"><i class="icon-circle"></i></div>
+
+                </div>
+            </div>
+        </section>
+
+    {% endif %}
+
+
+
+
+
+{% endblock %}
+
+{% block page_js %}
+
+    <script>
+        $(document).ready(function () {
+
+            const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: true,
+                    timer: 3000
+                });
+
+            //alert(window.location.href)
+            var url_string = window.location.href
+            var url = new URL(url_string);
+            var m = url.searchParams.get("message");
+            //alert(m);
+
+            if ( m == "product-deleted-from-cart") {
+                Toast.fire({
+                    type: 'success',
+                    title: 'Product Deleted From Your Shopping Bag.'
+                });
+            }
+
+
+        });
+
+    </script>
+
+
+    <script>
+
+        function plusPressed(elem) {
+            unit_price = $(elem).parent().parent().siblings('.cart-product-price').find('.amount').html();
+            //console.log(unit_price)
+
+            qty = $(elem).parent().find('.qty').val();
+            qty = parseInt(qty) + 1;
+            //console.log(qty)
+
+            total = parseInt(unit_price) * parseInt(qty);
+            //console.log(total)
+
+            $(elem).parent().parent().siblings('.cart-product-subtotal').find('.amount').html(total);
+
+            //Update the Hidden Fields
+            $(elem).parent().parent().siblings('.hiddenFields').find('#productTotalSum').val(total);
+            $(elem).parent().parent().siblings('.hiddenFields').find('#productQuantity').val(qty);
+
+        }
+
+
+        function minusPressed(elem) {
+            unit_price = $(elem).parent().parent().siblings('.cart-product-price').find('.amount').html();
+            //console.log(unit_price)
+
+            qty = $(elem).parent().find('.qty').val();
+            qty = parseInt(qty) - 1;
+            if (qty == 0) {
+                qty = 1
+            }
+            //console.log(qty)
+
+            total = parseInt(unit_price) * parseInt(qty);
+            //console.log(total)
+
+            $(elem).parent().parent().siblings('.cart-product-subtotal').find('.amount').html(total);
+
+            //Update the Hidden Fields
+            $(elem).parent().parent().siblings('.hiddenFields').find('#productTotalSum').val(total);
+            $(elem).parent().parent().siblings('.hiddenFields').find('#productQuantity').val(qty);
+
+        }
+
+    </script>
+
+
+    <script>
+
+        $('.remove').click(function () {
+
+            //alert(this.id);
+
+            $.ajax({
+                url: '{% url "delete_item_from_cart" %}',
+                data: {
+                    'p_id': this.id,
+                },
+                success: function (data) {
+
+                    window.location.href="/order/finalize-order?message=product-deleted-from-cart"
+
+                },
+                error: function (data) {
+                    console.log("Error occured")
+                }
+            });
+        })
+
+    </script>
+
+    <script>
+
+    jQuery(function ($) {
+        $('#id_customer_phone').mask('99999999999');
+    });
+
+</script>
+
+
+{% endblock page_js %}

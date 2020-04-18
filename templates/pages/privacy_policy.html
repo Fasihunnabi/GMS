@@ -1,0 +1,103 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+		<!-- Content
+		============================================= -->
+		<section id="content" class="clearfix">
+
+			<div class="content-wrap pt-5">
+
+				<div class="container">
+
+					<div class="row">
+						<!-- Posts -->
+						<div class="col-md-12">
+
+							<!-- Page Section - spec
+							============================================= -->
+							<div id="section-spec" class="page-section mt-5">
+								<h3 class="mb-3">Privacy Policy - C H E C K O U T</h3>
+								<p>Not Available For Now. Coming Soon...</p>
+
+							</div>
+
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</section><!-- #content end -->
+
+{% endblock content %}
+
+
+
+
+
+
+	<script>
+
+		jQuery('#google-map').gMap({
+
+			maptype: 'ROADMAP',
+			latitude: 41.8333925,
+			longitude: -88.0121473,
+			zoom: 4,
+			markers: [
+				{
+					address: "San Francisco, USA",
+					html: '<div><h4 style="margin-bottom: 8px;">Porsche Centre</h4> <address> <strong>Headquarters:</strong><br> 795 Folsom Ave, Suite 600<br> San Francisco, CA 94107<br> </address> <abbr><strong>Phone:</strong></abbr> (91) 8547 632521<br> <abbr><strong>Fax:</strong></abbr> (91) 11 4752 1433<br> <abbr><strong>Email:</strong></abbr> info@canvas.com </div>',
+					icon: {
+						image: "../../images/icons/map-icon-red.png",
+						iconsize: [32, 39],
+						iconanchor: [13,39]
+					}
+				},
+				{
+					address: "New York, USA",
+					html: '<div><h4 style="margin-bottom: 8px;">Porsche Centre</h4> <address> <strong>Headquarters:</strong><br> 795 Folsom Ave, Suite 600<br> New York, USA 94107<br> </address> <abbr><strong>Phone:</strong></abbr> (91) 8547 632521<br> <abbr><strong>Fax:</strong></abbr> (91) 11 4752 1433<br> <abbr><strong>Email:</strong></abbr> info@canvas.com </div>',
+					icon: {
+						image: "../../images/icons/map-icon-red.png",
+						iconsize: [32, 39],
+						iconanchor: [13,39]
+					}
+				},
+				{
+					address: "Washington, USA",
+					html: '<div><h4 style="margin-bottom: 8px;">Porsche Centre</h4> <address> <strong>Headquarters:</strong><br> 795 Folsom Ave, Suite 600<br> Washington, USA 94107<br> </address> <abbr><strong>Phone:</strong></abbr> (91) 8547 632521<br> <abbr><strong>Fax:</strong></abbr> (91) 11 4752 1433<br> <abbr><strong>Email:</strong></abbr> info@canvas.com </div>',
+					icon: {
+						image: "../../images/icons/map-icon-red.png",
+						iconsize: [32, 39],
+						iconanchor: [13,39]
+					}
+				},
+				{
+					address: "Chicago, USA",
+					html: '<div><h4 style="margin-bottom: 8px;">Porsche Centre</h4> <address> <strong>Headquarters:</strong><br> 795 Folsom Ave, Suite 600<br> Chicago, USA 94107<br> </address> <abbr><strong>Phone:</strong></abbr> (91) 8547 632521<br> <abbr><strong>Fax:</strong></abbr> (91) 11 4752 1433<br> <abbr><strong>Email:</strong></abbr> info@canvas.com </div>',
+					icon: {
+						image: "../../images/icons/map-icon-red.png",
+						iconsize: [32, 39],
+						iconanchor: [13,39]
+					}
+				}
+			],
+			doubleclickzoom: false,
+			controls: {
+				panControl: true,
+				zoomControl: true,
+				mapTypeControl: true,
+				scaleControl: false,
+				streetViewControl: false,
+				overviewMapControl: false
+			}
+		});
+
+	</script>
+

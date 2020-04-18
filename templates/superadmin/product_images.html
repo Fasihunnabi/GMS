@@ -1,0 +1,349 @@
+{% extends 'superadmin/base.html' %}
+{% load static %}
+
+{% block css_script %}
+
+    <link rel="stylesheet" href="{% static 'photoviewer/css/photoviewer.css' %}">
+    {#    <link rel="stylesheet" href="{% static 'photoviewer/css/snack.css' %}">#}
+    <link rel="stylesheet" href="{% static 'photoviewer/css/snack-helper.css' %}">
+    <link rel="stylesheet" href="{% static 'photoviewer/css/docs.css' %}">
+
+    <!-- Ekko Lightbox -->
+    <link rel="stylesheet" href="{% static 'ekko-lightbox/ekko-lightbox.css' %}">
+
+{% endblock css_script %}
+
+
+{% block content %}
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Product Images - [Article No. {{ product_object.sku }}]</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Product Images</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- column -->
+                <div class="col-md-12">
+                    <!-- general form elements disabled -->
+                    <div class="card card-secondary">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-10" style="margin-top: 10px">
+                                    <h3 class="card-title">Product Images in Record for [Article
+                                        No. {{ product_object.sku }}]</h3>
+                                </div>
+                                <div class="col-md-2 pull-right" style="text-align: right">
+                                    <a type="button" data-toggle="modal" class="btn btn-info"
+                                       data-target="#modal-image-upload"><i class="fa fa-plus-square"></i> Add More
+                                        Images</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+
+                            <div class="row">
+                                {% if product_object.productimage_set.all %}
+                                    {% for obj in product_object.productimage_set.all %}
+                                        <div class="col-sm-3" style="padding: 20px">
+                                            <a data-gallery="manual" data-title="Images in Record" data-group="a"
+                                               href='{{ obj.image.url }}'>
+                                                <img src='{{ obj.image.url }}' height="100%" width="100%"
+                                                     alt="No Preview Available"
+                                                     class="margin">
+                                            </a>
+                                            <div style="text-align: right; padding-top: 5px;">
+                                                <a href="/supervisor/del-product-image/{{ obj.id }}" type="button" class="btn btn-danger btn-sm">Delete This Image
+                                                </a>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="col-sm-12" style="padding: 10px; text-align: center">
+                                            No Image in record.
+                                        </div>
+                                {% endif %}
+                                {#                      <div class="col-sm-2">#}
+                                {#                          <a href="https://via.placeholder.com/1200/FFFFFF.png?text=1" data-toggle="lightbox"#}
+                                {#                             data-title="sample 1 - white" data-gallery="gallery">#}
+                                {#                              <img src="https://via.placeholder.com/300/FFFFFF?text=1" class="img-fluid mb-2"#}
+                                {#                                   alt="white sample"/>#}
+                                {#                          </a>#}
+                                {#                      </div>#}
+                                {#                      <div class="col-sm-2">#}
+                                {#                          <a href="https://via.placeholder.com/1200/000000.png?text=2" data-toggle="lightbox"#}
+                                {#                             data-title="sample 2 - black" data-gallery="gallery">#}
+                                {#                              <img src="https://via.placeholder.com/300/000000?text=2" class="img-fluid mb-2"#}
+                                {#                                   alt="black sample"/>#}
+                                {#                          </a>#}
+                                {#                      </div>#}
+                                {#                      <div class="col-sm-2">#}
+                                {#                          <a href="https://via.placeholder.com/1200/FF0000/FFFFFF.png?text=3" data-toggle="lightbox"#}
+                                {#                             data-title="sample 3 - red" data-gallery="gallery">#}
+                                {#                              <img src="https://via.placeholder.com/300/FF0000/FFFFFF?text=3" class="img-fluid mb-2"#}
+                                {#                                   alt="red sample"/>#}
+                                {#                          </a>#}
+                                {#                      </div>#}
+                                {#                      <div class="col-sm-2">#}
+                                {#                          <a href="https://via.placeholder.com/1200/FF0000/FFFFFF.png?text=4" data-toggle="lightbox"#}
+                                {#                             data-title="sample 4 - red" data-gallery="gallery">#}
+                                {#                              <img src="https://via.placeholder.com/300/FF0000/FFFFFF?text=4" class="img-fluid mb-2"#}
+                                {#                                   alt="red sample"/>#}
+                                {#                          </a>#}
+                                {#                      </div>#}
+                                {#                      <div class="col-sm-2">#}
+                                {#                          <a href="https://via.placeholder.com/1200/000000.png?text=5" data-toggle="lightbox"#}
+                                {#                             data-title="sample 5 - black" data-gallery="gallery">#}
+                                {#                              <img src="https://via.placeholder.com/300/000000?text=5" class="img-fluid mb-2"#}
+                                {#                                   alt="black sample"/>#}
+                                {#                          </a>#}
+                                {#                      </div>#}
+                                {#                      <div class="col-sm-2">#}
+                                {#                          <a href="https://via.placeholder.com/1200/FFFFFF.png?text=6" data-toggle="lightbox"#}
+                                {#                             data-title="sample 6 - white" data-gallery="gallery">#}
+                                {#                              <img src="https://via.placeholder.com/300/FFFFFF?text=6" class="img-fluid mb-2"#}
+                                {#                                   alt="white sample"/>#}
+                                {#                          </a>#}
+                                {#                      </div>#}
+                                {#                      <div class="col-sm-2">#}
+                                {#                          <a href="https://via.placeholder.com/1200/FFFFFF.png?text=7" data-toggle="lightbox"#}
+                                {#                             data-title="sample 7 - white" data-gallery="gallery">#}
+                                {#                              <img src="https://via.placeholder.com/300/FFFFFF?text=7" class="img-fluid mb-2"#}
+                                {#                                   alt="white sample"/>#}
+                                {#                          </a>#}
+                                {#                      </div>#}
+                                {#                      <div class="col-sm-2">#}
+                                {#                          <a href="https://via.placeholder.com/1200/000000.png?text=8" data-toggle="lightbox"#}
+                                {#                             data-title="sample 8 - black" data-gallery="gallery">#}
+                                {#                              <img src="https://via.placeholder.com/300/000000?text=8" class="img-fluid mb-2"#}
+                                {#                                   alt="black sample"/>#}
+                                {#                          </a>#}
+                                {#                      </div>#}
+                                {#                      <div class="col-sm-2">#}
+                                {#                          <a href="https://via.placeholder.com/1200/FF0000/FFFFFF.png?text=9" data-toggle="lightbox"#}
+                                {#                             data-title="sample 9 - red" data-gallery="gallery">#}
+                                {#                              <img src="https://via.placeholder.com/300/FF0000/FFFFFF?text=9" class="img-fluid mb-2"#}
+                                {#                                   alt="red sample"/>#}
+                                {#                          </a>#}
+                                {#                      </div>#}
+                                {#                      <div class="col-sm-2">#}
+                                {#                          <a href="https://via.placeholder.com/1200/FFFFFF.png?text=10" data-toggle="lightbox"#}
+                                {#                             data-title="sample 10 - white" data-gallery="gallery">#}
+                                {#                              <img src="https://via.placeholder.com/300/FFFFFF?text=10" class="img-fluid mb-2"#}
+                                {#                                   alt="white sample"/>#}
+                                {#                          </a>#}
+                                {#                      </div>#}
+                                {#                      <div class="col-sm-2">#}
+                                {#                          <a href="https://via.placeholder.com/1200/FFFFFF.png?text=11" data-toggle="lightbox"#}
+                                {#                             data-title="sample 11 - white" data-gallery="gallery">#}
+                                {#                              <img src="https://via.placeholder.com/300/FFFFFF?text=11" class="img-fluid mb-2"#}
+                                {#                                   alt="white sample"/>#}
+                                {#                          </a>#}
+                                {#                      </div>#}
+                                {#                      <div class="col-sm-2">#}
+                                {#                          <a href="https://via.placeholder.com/1200/000000.png?text=12" data-toggle="lightbox"#}
+                                {#                             data-title="sample 12 - black" data-gallery="gallery">#}
+                                {#                              <img src="https://via.placeholder.com/300/000000?text=12" class="img-fluid mb-2"#}
+                                {#                                   alt="black sample"/>#}
+                                {#                          </a>#}
+                                {#                      </div>#}
+                            </div>
+
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-8"></div>
+                                {% if product_object.productimage_set.all %}
+                                    <div class="col-md-4 pull-right" style="text-align: right">
+                                        <button onclick="delAllImgs(this)" data-id="{{ product_object.id }}" type="button" class="btn btn-danger"><i class="fa fa-trash"></i> Delete All the Images</button>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!--/.col (right) -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+    </div>
+
+
+    <!-- Modal for Image Upload -->
+    <div class="modal fade" id="modal-image-upload">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Upload Images for Article No {{ product_object.sku }}</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form role="form" method="post" enctype="multipart/form-data" action=""> {% csrf_token %}
+                    <div class="modal-body">
+                        <input multiple name="product_images" type="file">
+                    </div>
+
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+
+{% endblock content %}
+
+
+
+{% block js_script %}
+
+    <script>
+
+        $(document).ready(function () {
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: true,
+                timer: 3000
+            });
+
+            {% if su_message == "new-images-added-successfully" %}
+
+                Toast.fire({
+                    type: 'success',
+                    title: 'New Images Added Successfully.'
+                });
+
+            {% endif %}
+
+            {% if su_message == "image-deleted-successfully" %}
+
+                Toast.fire({
+                    type: 'success',
+                    title: 'Images Deleted Successfully.'
+                });
+
+            {% endif %}
+
+            {% if su_message == "images-deleted-successfully" %}
+
+                Toast.fire({
+                    type: 'success',
+                    title: 'All Images Deleted Successfully.'
+                });
+
+            {% endif %}
+
+        });
+
+    </script>
+
+    <!-- Ekko Lightbox -->
+    <script src="{% static 'ekko-lightbox/ekko-lightbox.min.js' %}"></script>
+    <!-- Page specific script -->
+    <script>
+        $(function () {
+            $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+                event.preventDefault();
+                $(this).ekkoLightbox({
+                    alwaysShowClose: true
+                });
+            });
+
+            $('.filter-container').filterizr({gutterPixels: 3});
+            $('.btn[data-filter]').on('click', function () {
+                $('.btn[data-filter]').removeClass('active');
+                $(this).addClass('active');
+            });
+        })
+    </script>
+
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="https://cdn.bootcss.com/prettify/r298/prettify.min.js"></script>
+    <script src="{% static 'photoviewer/js/photoviewer.js' %}"></script>
+    <script>
+        window.prettyPrint && prettyPrint();
+
+        // initialize manually with a list of links
+        $('[data-gallery=manual]').click(function (e) {
+
+            e.preventDefault();
+
+            var items = [],
+                options = {
+                    index: $(this).index(),
+                };
+
+            $('[data-gallery=manual]').each(function () {
+                items.push({
+                    src: $(this).attr('href'),
+                    title: $(this).attr('data-title')
+                });
+            });
+
+            new PhotoViewer(items, options);
+
+        });
+
+    </script>
+
+
+    <script>
+
+    function delAllImgs(elem) {
+            id = $(elem).attr("data-id");
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete All!'
+            }).then((result) => {
+                if (result.value) {
+
+                    window.location.href="/supervisor/del-all-product-images/" + id
+
+                    Swal.fire(
+                        'Deleted!',
+                        'All the images have been deleted.',
+                        'success'
+                    )
+                }
+            })
+        }
+
+    </script>
+
+{% endblock js_script %}

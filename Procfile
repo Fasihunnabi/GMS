@@ -1,0 +1,1 @@
+web: gunicorn checkout_project.wsgi --log-file -
