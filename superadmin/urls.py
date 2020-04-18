@@ -26,9 +26,9 @@ urlpatterns = [
     url(r'^login/$', views.login, name="login"),
     url(r'^logout/$', views.logout, name="logout"),
 
-    path('', login_required(TemplateView.as_view(template_name='superadmin/index.html'), login_url="/supervisor/login/")),  #After Login yahan redirect krna
+    path('', login_required(TemplateView.as_view(template_name='superadmin/index.html'), login_url="/login/")),  #After Login yahan redirect krna
 
-    path('orders', login_required(views.view_orders, login_url="/supervisor/login/")),  # View Orders
+    path('orders', login_required(views.view_orders, login_url="/login/")),  # View Orders
     path('deleteOrder/', login_required(views.deleteOrder.as_view()), name="deleteOrder"),  # AJAX to Delete Order
     path('StatusAcknowledged/', login_required(views.StatusAcknowledged.as_view()), name="StatusAcknowledged"),  # AJAX to Delete Order
     path('StatusDeleivered/', login_required(views.StatusDeleivered.as_view()), name="StatusDeleivered"),  # AJAX to Delete Order
@@ -37,14 +37,14 @@ urlpatterns = [
     path('messages', login_required(views.view_messages, login_url="/adminsupervisoristrator/login/")),  # View Messages
 
 
-    path('add-device/', login_required(views.add_device, login_url="/supervisor/login/")),  # Add Device
-    path('edit-device/<slug:id>', login_required(views.edit_device, login_url="/supervisor/login/")),  # Edit Products
+    path('add-device/', login_required(views.add_device, login_url="/login/")),  # Add Device
+    path('edit-device/<slug:id>', login_required(views.edit_device, login_url="/login/")),  # Edit Products
     path('deletedevice/', login_required(views.deletedevice.as_view()), name="deletedevice"),  # AJAX to Delete Product
-    path('view-devices', login_required(views.view_devices, login_url="/supervisor/login/")),  # View Products
+    path('view-devices', login_required(views.view_devices, login_url="/login/")),  # View Products
 
 
-    path('product-images/<slug:slug>', login_required(views.product_images, login_url="/supervisor/login/")),
-    path('del-product-image/<slug:slug>', login_required(views.del_product_image, login_url="/supervisor/login/")),
-    path('del-all-product-images/<slug:slug>', login_required(views.del_all_product_images, login_url="/supervisor/login/")),
+    path('product-images/<slug:slug>', login_required(views.product_images, login_url="/login/")),
+    path('del-product-image/<slug:slug>', login_required(views.del_product_image, login_url="/login/")),
+    path('del-all-product-images/<slug:slug>', login_required(views.del_all_product_images, login_url="/login/")),
 
 ]

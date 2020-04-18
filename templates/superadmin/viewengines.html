@@ -15,7 +15,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="/supervisor">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
                         <li class="breadcrumb-item active">Engine</li>
                     </ol>
                 </div>
@@ -57,7 +57,7 @@
                                     <td>{{ obj.AC_Rated_Output }}</td>
                                     <td>{{ obj.Fuel_Tank_Capacity }}</td>
                                     <td>
-                                        <a href="/supervisor/edit-device/{{ obj.id }}"
+                                        <a href="/edit-device/{{ obj.id }}"
                                            type="button"
                                            class="btn btn-block btn-info btn-sm">Edit</a>
                                         <button data-id="{{ obj.id }}"
@@ -160,7 +160,7 @@
                         },
                         dataType: 'json',
                         success: function (data) {
-                            window.location.href = "/supervisor/view-devices?message=product-deleted-success"
+                            window.location.href = "/view-devices?message=product-deleted-success"
                         },
                         error: function () {
                             console.log("Error in Loading Content")

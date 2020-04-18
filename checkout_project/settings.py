@@ -126,7 +126,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-LOGIN_URL = 'supervisor/login/'
+LOGIN_URL = '/login/'
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 

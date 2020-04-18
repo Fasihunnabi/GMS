@@ -68,7 +68,7 @@
                                                      class="margin">
                                             </a>
                                             <div style="text-align: right; padding-top: 5px;">
-                                                <a href="/supervisor/del-product-image/{{ obj.id }}" type="button" class="btn btn-danger btn-sm">Delete This Image
+                                                <a href="/del-product-image/{{ obj.id }}" type="button" class="btn btn-danger btn-sm">Delete This Image
                                                 </a>
                                             </div>
                                         </div>
@@ -333,7 +333,7 @@
             }).then((result) => {
                 if (result.value) {
 
-                    window.location.href="/supervisor/del-all-product-images/" + id
+                    window.location.href="/del-all-product-images/" + id
 
                     Swal.fire(
                         'Deleted!',

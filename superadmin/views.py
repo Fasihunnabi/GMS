@@ -40,7 +40,7 @@ def login(request):
                     user_auth = authenticate(username=user.username, password=password)
                     print("asd", user)
                     auth_login(request, user_auth)
-                    return HttpResponseRedirect('/supervisor')
+                    return HttpResponseRedirect('/')
                 else:
                     error = "invalid Email or Password"
 
@@ -59,7 +59,7 @@ def login(request):
 
 def logout(request):
     Logout(request)
-    return HttpResponseRedirect('/supervisor/login/')
+    return HttpResponseRedirect('/login/')
 
 
 def view_orders(request):
@@ -160,7 +160,7 @@ def add_device(request):
             form_obj = form.save(commit=False)
             form_obj.Engine_supervisor = request.user
             form_obj.save()
-            return HttpResponseRedirect("/supervisor/view-devices?message=success")
+            return HttpResponseRedirect("/view-devices?message=success")
         else:
             print(form.errors)
             er_message = form.errors
@@ -184,7 +184,7 @@ def edit_device(request, id):
             form_obj = form.save(commit=False)
             print("valid form")
             form_obj.save()
-            return HttpResponseRedirect("/supervisor/view-devices?message=update-success")
+            return HttpResponseRedirect("/view-devices?message=update-success")
 
         else:
             print(form.errors)
@@ -276,7 +276,7 @@ def del_product_image(request, slug):
     print(product_sku)
     print(product_sku)
 
-    return HttpResponseRedirect("/supervisor/product-images/" + str(product_sku) +"?message=image-deleted-successfully")
+    return HttpResponseRedirect("/product-images/" + str(product_sku) +"?message=image-deleted-successfully")
 
 
 def del_all_product_images(request, slug):
@@ -284,7 +284,7 @@ def del_all_product_images(request, slug):
     product_obj = Product.objects.get(id=slug)
 
     ProductImage.objects.filter(Product=product_obj).delete()
-    return HttpResponseRedirect("/supervisor/product-images/" + str(product_obj.sku) +"?message=images-deleted-successfully")
+    return HttpResponseRedirect("/product-images/" + str(product_obj.sku) +"?message=images-deleted-successfully")
 
 
 
