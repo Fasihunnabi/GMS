@@ -28,14 +28,10 @@ urlpatterns = [
 
     path('', login_required(TemplateView.as_view(template_name='superadmin/index.html'), login_url="/login/")),  #After Login yahan redirect krna
 
-    path('orders', login_required(views.view_orders, login_url="/login/")),  # View Orders
-    path('deleteOrder/', login_required(views.deleteOrder.as_view()), name="deleteOrder"),  # AJAX to Delete Order
-    path('StatusAcknowledged/', login_required(views.StatusAcknowledged.as_view()), name="StatusAcknowledged"),  # AJAX to Delete Order
-    path('StatusDeleivered/', login_required(views.StatusDeleivered.as_view()), name="StatusDeleivered"),  # AJAX to Delete Order
-
-
-    path('messages', login_required(views.view_messages, login_url="/adminsupervisoristrator/login/")),  # View Messages
-
+    path('employee', login_required(views.view_employee, login_url="/login/")),  # View Orders
+    path('add-employee/', login_required(views.add_employee, login_url="/login/")),
+    path('edit-employee/<slug:id>', login_required(views.edit_employee, login_url="/login/")),
+    path('delete_employee/', login_required(views.delete_employee.as_view()), name="delete_employee"),  # AJAX to Delete Order
 
     path('add-device/', login_required(views.add_device, login_url="/login/")),  # Add Device
     path('edit-device/<slug:id>', login_required(views.edit_device, login_url="/login/")),  # Edit Products

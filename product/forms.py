@@ -1,55 +1,7 @@
 from django import forms
 from .models import *
+from django.contrib.auth.forms import UserCreationForm
 
-class ProductForm(forms.ModelForm):
-    class Meta:
-        model = Product
-        fields = '__all__'
-
-    def __init__(self, *args, **kwargs):
-        super(ProductForm, self).__init__(*args, **kwargs)
-        self.fields['sku'].widget.attrs['class'] = 'form-control'
-        self.fields['sku'].widget.attrs['placeholder'] = 'Enter Article Number'
-        self.fields['name'].widget.attrs['class'] = 'form-control'
-        self.fields['name'].widget.attrs['placeholder'] = 'Enter the Name of the Product'
-        self.fields['sale_price'].widget.attrs['class'] = 'form-control'
-        self.fields['sale_price'].widget.attrs['placeholder'] = 'Enter Sale Price'
-        self.fields['original_price'].widget.attrs['class'] = 'form-control'
-        self.fields['original_price'].widget.attrs['placeholder'] = 'Enter Original Price'
-        self.fields['description'].widget.attrs['class'] = 'form-control'
-        self.fields['description'].widget.attrs['placeholder'] = 'Enter the Short Description of the Product'
-        self.fields['description'].widget.attrs['rows'] = 5
-        self.fields['category'].widget.attrs['class'] = 'form-control custom-select'
-
-
-    # def __init__(self, *args, **kwargs):
-    #     super(CustomerForm, self).__init__(*args, **kwargs)
-    #     self.fields['cust_name'].widget.attrs['class'] = 'form-control'
-    #     self.fields['cust_name'].widget.attrs['placeholder'] = 'Guest Name'
-    #     self.fields['country'].widget.attrs['class'] = 'form-control'
-    #     self.fields['country'].widget.attrs['placeholder'] = 'Country'
-    #     self.fields['state'].widget.attrs['class'] = 'form-control'
-    #     self.fields['state'].widget.attrs['placeholder'] = 'State'
-    #     self.fields['city'].widget.attrs['class'] = 'form-control'
-    #     self.fields['city'].widget.attrs['placeholder'] = 'City'
-    #     self.fields['zip'].widget.attrs['class'] = 'form-control'
-    #     self.fields['zip'].widget.attrs['placeholder'] = 'Zip Code'
-    #     self.fields['email'].widget.attrs['class'] = 'form-control'
-    #     self.fields['email'].widget.attrs['placeholder'] = 'Email Address'
-    #     self.fields['phone'].widget.attrs['class'] = 'form-control'
-    #     self.fields['phone'].widget.attrs['placeholder'] = 'phone Number'
-    #     self.fields['address1'].widget.attrs['class'] = 'form-control guest-textarea'
-    #     self.fields['address1'].widget.attrs['placeholder'] = 'Address1'
-    #     self.fields['address1'].widget.attrs['rows'] = '1'
-    #     self.fields['address2'].widget.attrs['class'] = 'form-control guest-textarea'
-    #     self.fields['address2'].widget.attrs['placeholder'] = 'Address2'
-    #     self.fields['address2'].widget.attrs['rows'] = '1'
-    #     self.fields['additional_comments'].widget.attrs['class'] = 'form-control'
-    #     self.fields['additional_comments'].widget.attrs['placeholder'] = 'Additional Comments'
-    #     self.fields['additional_comments'].widget.attrs['rows'] = '3'
-    #     self.fields['reward_type'].widget.attrs['class'] = 'form-control'
-    #     self.fields['reward_points'].widget.attrs['class'] = 'form-control'
-    #     self.fields['reward_points'].widget.attrs['placeholder'] = 'Reward Points'
 
 class DeviceForm(forms.ModelForm):
     class Meta:
@@ -128,3 +80,82 @@ class DeviceForm(forms.ModelForm):
         self.fields['Continuous_Operating_Hours'].widget.attrs['placeholder'] = 'e.g: 9.0 Hours (100% Load)'
         self.fields['Dimensions_L_W_H'].widget.attrs['placeholder'] = 'e.g: 685mm x 534mm x 509mm'
         self.fields['Dry_Weight'].widget.attrs['placeholder'] = 'e.g: 85 kg'
+
+
+class user_update_form(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1')
+
+    def __init__(self, *args, **kwargs):
+        super(user_update_form, self).__init__(*args, **kwargs)
+        # self.fields['no_of_stores'].widget.attrs['required'] = True
+        self.fields['username'].widget.attrs['placeholder'] = "User Name"
+        self.fields['username'].widget.attrs['class'] = 'form-control'
+
+        self.fields['email'].widget.attrs['placeholder'] = "Email"
+        self.fields['email'].widget.attrs['class'] = 'form-control'
+
+        self.fields['password1'].required = False
+        self.fields['password2'].required = False
+
+
+
+
+class user_register_form(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2',)
+
+    def __init__(self, *args, **kwargs):
+        super(user_register_form, self).__init__(*args, **kwargs)
+        # self.fields['no_of_stores'].widget.attrs['required'] = True
+        self.fields['username'].widget.attrs['placeholder'] = "User Name"
+        self.fields['username'].widget.attrs['class'] = 'form-control'
+
+        self.fields['email'].widget.attrs['placeholder'] = "Email"
+        self.fields['email'].widget.attrs['class'] = 'form-control'
+
+        self.fields['password1'].widget.attrs['placeholder'] = 'Password'
+        self.fields['password1'].widget.attrs['class'] = 'form-control'
+
+        self.fields['password2'].widget.attrs['placeholder'] = 'Confirm Password'
+        self.fields['password2'].widget.attrs['class'] = 'form-control'
+
+
+
+class Employee_form(forms.ModelForm):
+
+    class Meta:
+        model = Employee
+        fields = ['device_id', 'dateOfBirth', 'phone', 'address', 'cnic', 'designation', 'emp_delete', 'emp_type']
+        exclude = ['emp_User', 'emp_supervisor']
+
+    def __init__(self, supervisor, *args, **kwargs):
+        super(Employee_form, self).__init__(*args, **kwargs)
+
+        self.fields['dateOfBirth'].widget.attrs['placeholder'] = "Date of Birth ()"
+        self.fields['dateOfBirth'].widget.attrs['class'] = 'form-control'
+
+        self.fields['phone'].widget.attrs['placeholder'] = 'Phone'
+        self.fields['phone'].widget.attrs['class'] = 'form-control'
+
+        self.fields['address'].widget.attrs['placeholder'] = 'Address'
+        self.fields['address'].widget.attrs['class'] = 'form-control'
+
+        self.fields['cnic'].widget.attrs['placeholder'] = 'CNIC'
+        self.fields['cnic'].widget.attrs['class'] = 'form-control'
+
+        self.fields['designation'].widget.attrs['placeholder'] = 'Designation'
+        self.fields['designation'].widget.attrs['class'] = 'form-control'
+
+        self.fields['emp_type'].empty_label = '--- Employee Type ---'
+        self.fields['emp_type'].widget.attrs['class'] = 'form-control'
+
+
+        self.fields['device_id'] = forms.ModelChoiceField(
+            required=True, queryset=Device.objects.filter(Engine_supervisor=supervisor),
+            empty_label='--- Select Power Generator ---'
+        )
+
+        self.fields['device_id'].widget.attrs['class'] = 'form-control'

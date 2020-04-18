@@ -2,66 +2,63 @@
 {% load static %}
 
 {% block content %}
-
-
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>
-                        Power Generator List
-                    </h1>
+                    <h1>Employee</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="/">Home</a></li>
-                        <li class="breadcrumb-item active">Power Generator</li>
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Employee</li>
                     </ol>
                 </div>
             </div>
         </div><!-- /.container-fluid -->
     </section>
+
     <!-- Main content -->
     <section class="content">
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Power Generator Details</h3>
+                        <h3 class="card-title">Employee Details</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="example1"
-                               class="table table-bordered table-striped">
+                        <table id="example1" class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th>Power Generator Name</th>
-                                <th>Power Generator Brand</th>
-                                <th>Power Generator Maximum Output</th>
-                                <th>Power Generator Type</th>
-                                <th>Phase</th>
-                                <th>AC Rated Output</th>
-                                <th>Fuel Tank Capacity</th>
+
+                                <th>User Name </th>
+                                <th>User Supervisor </th>
+                                <th>Appointed On</th>
+                                <th>Email</th>
+                                <th>Phone </th>
+                                <th>CNIC </th>
+                                <th>Employee Type</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for obj in engine_list %}
+                            {% for obj in employee_list %}
                                 <tr>
-                                    <td>{{ obj.name }}</td>
-                                    <td>{{ obj.Engine_Brand }}</td>
-                                    <td>{{ obj.Engine_Maximum_Output }}</td>
-                                    <td>{{ obj.Engine_Type }}</td>
-                                    <td>{{ obj.Phase }}</td>
-                                    <td>{{ obj.AC_Rated_Output }}</td>
-                                    <td>{{ obj.Fuel_Tank_Capacity }}</td>
+                                    <td> {{ obj.emp_User.username }}</td>
+                                    <td> {{ obj.emp_supervisor.username}}</td>
+                                    <td> {{ obj.device_id.name}}</td>
+                                    <td> {{ obj.emp_User.email}}</td>
+                                    <td> {{ obj.phone}}</td>
+                                    <td> {{ obj.cnic}}</td>
+                                    <td> {{ obj.emp_type}}</td>
                                     <td>
-                                        <a href="/edit-device/{{ obj.id }}"
+                                        <a href="/edit-employee/{{ obj.id }}"
                                            type="button"
                                            class="btn btn-block btn-info btn-sm">Edit</a>
                                         <button data-id="{{ obj.id }}"
-                                                onclick="prodDelFunc(this)"
+                                                onclick="orderDelFunc(this)"
                                                 type="button"
                                                 class="btn btn-block btn-danger btn-sm">Delete
                                         </button>
@@ -77,61 +74,61 @@
             </div>
             <!-- /.col -->
         </div>
+        <!-- /.row -->
     </section>
+    <!-- /.content -->
+
 
 
 {% endblock content %}
 
 
+
 {% block js_script %}
 
     <script>
-        $(document).ready(function () {
+
+     $(document).ready(function () {
 
             const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: true,
-                timer: 3000
-            });
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: true,
+                    timer: 3000
+                });
 
-            {% if su_message == "success" %}
+            {% if su_message == "order-deleted-success" %}
 
                 Toast.fire({
                     type: 'success',
-                    title: 'Power Generator Has Been Added Successfully.'
+                    title: 'Order Has Been Deleted Successfully.'
                 });
 
             {% endif %}
 
-
-            {% if su_message == "update-success" %}
-
-                Toast.fire({
-                    type: 'success',
-                    title: 'Power Generator Details Updated Successfully.'
-                });
-
-            {% endif %}
-
-
-            {% if su_message == "product-deleted-success" %}
+            {% if su_message == "order-status-change-success" %}
 
                 Toast.fire({
                     type: 'success',
-                    title: 'Power Generator Deleted Successfully.'
+                    title: 'Order Status Has Been Updated Successfully.'
                 });
 
             {% endif %}
 
         });
-
     </script>
 
     <script>
+        $("#id_dateOfBirth").datepicker({
+                dateFormat: 'dd/mm/yyyy',
+                autoclose: true,
+                orientation: 'bottom'
+            }
+        );
 
-        function prodDelFunc(elem) {
+        function orderDelFunc(elem) {
             id = $(elem).attr("data-id");
+            //alert(id)
 
             Swal.fire({
                 title: 'Are you sure?',
@@ -145,13 +142,13 @@
                 if (result.value) {
 
                     $.ajax({
-                        url: '{% url "deletedevice" %}',
+                        url: '{% url "delete_employee" %}',
                         data: {
                             'id': id,
                         },
                         dataType: 'json',
                         success: function (data) {
-                            window.location.href = "/view-devices?message=product-deleted-success"
+                            window.location.href = "/employee?message=order-deleted-success"
                         },
                         error: function () {
                             console.log("Error in Loading Content")
@@ -161,13 +158,12 @@
 
                     Swal.fire(
                         'Deleted!',
-                        'Power Generator has been deleted.',
+                        'Employee has been deleted.',
                         'success'
                     )
                 }
             })
         }
+
     </script>
-
-
 {% endblock js_script %}

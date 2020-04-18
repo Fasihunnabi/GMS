@@ -68,3 +68,22 @@ class Device(models.Model):
     Continuous_Operating_Hours = models.CharField(max_length=100)
     Dimensions_L_W_H = models.CharField(max_length=100)
     Dry_Weight = models.IntegerField()
+
+    def __str__(self):
+        return str(self.name)
+
+class Employee(models.Model):
+    emp_User = models.ForeignKey(User, on_delete=models.CASCADE, related_name="emp_user")
+    emp_supervisor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="emp_supervisor")
+    device_id = models.ForeignKey(Device, on_delete=models.CASCADE)
+    dateOfBirth = models.DateField()
+    phone = models.CharField(max_length=30, blank=True, help_text='Contact Phone Number')
+    address = models.CharField(max_length=50, blank=True, null=True)
+    cnic = models.CharField(max_length=20, null=True, blank=True)
+    designation = models.CharField(max_length=50)
+    emp_delete = models.BooleanField(default=False)
+    emp_type = models.CharField(choices=(
+        ('Electrician', 'Electrician'),
+        ('Mechanic', 'Mechanic'),
+        ('Supervisor', 'Supervisor')
+    ), max_length=20)

@@ -1,4 +1,4 @@
-from django.shortcuts import render , HttpResponseRedirect , HttpResponse
+from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from orders.models import Order
 from product.models import Message, ProductCategory, Product, ProductImage
 from .forms import LoginForm
@@ -15,10 +15,9 @@ from django.views.generic import View
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 
+
 # Create your views here.
 
-# def login(request):
-#     return render(request, "superadmin/login.html")
 
 def login(request):
     template_name = "superadmin/login.html"
@@ -62,31 +61,85 @@ def logout(request):
     return HttpResponseRedirect('/login/')
 
 
-def view_orders(request):
+def view_employee(request):
     su_message = request.GET.get("message")
     print(su_message)
 
-    orders_list = Order.objects.all()
-
-    print(orders_list)
+    employee_list = Employee.objects.filter(emp_supervisor=request.user)
 
     context = {
         'su_message': su_message,
-        'orders_list': orders_list,
+        'employee_list': employee_list,
     }
 
-    return render(request, "superadmin/orders.html", context)
+    return render(request, "superadmin/Employee/list_employee.html", context)
 
 
-class deleteOrder(View):
+def add_employee(request):
+    su_message = request.GET.get("message")
+    user_form = user_register_form(request.POST or None)
+    form = Employee_form(request.user, request.POST or None)
+
+    if request.POST:
+        # print("It came in post request")
+        print(form)
+        print(form.errors)
+        if user_form.is_valid():
+            user_obj = user_form.save()
+            if form.is_valid():
+                print("valid form")
+                form_obj = form.save(commit=False)
+                form_obj.emp_User = user_obj
+                form_obj.emp_supervisor = request.user
+                form_obj.save()
+                return HttpResponseRedirect("/employee?message=success")
+            else:
+                print(form.errors)
+
+    context = {
+        'form': form,
+        'register_form': user_form,
+    }
+
+    return render(request, "superadmin/Employee/add_employee.html", context)
+
+
+def edit_employee(request, id):
+    su_message = request.GET.get("message")
+    emp_obj = Employee.objects.get(id=id)
+    user_form = user_update_form(request.POST or None, instance=emp_obj.emp_User)
+    form = Employee_form(request.user, request.POST or None, instance=emp_obj)
+    print("Update Employee")
+    if request.POST:
+        print("Update Employee")
+        if form.is_valid():
+            print("employeedate valid form")
+            form.save()
+        else:
+            print(form.errors)
+        if user_form.is_valid():
+            user_form.save()
+        else:
+            print(user_form.errors)
+
+        return HttpResponseRedirect("/employee?message=success")
+    context = {
+        'form': form,
+        'register_form': user_form,
+        'status': 'update'
+    }
+
+    return render(request, "superadmin/Employee/add_employee.html", context)
+
+
+class delete_employee(View):
     def get(self, request):
 
-        p_id = request.GET.get('id', None)
+        emp_id = request.GET.get('id', None)
 
-        res = Order.objects.get(id=p_id).delete()
+        res = Employee.objects.get(id=emp_id).delete()
 
         isSuccess = []
-
         if (res):
             print("order  dellllllllllllllllllllllllllllllllllll")
             isSuccess.append("deleted")
@@ -96,63 +149,12 @@ class deleteOrder(View):
         return JsonResponse(isSuccess, safe=False)
 
 
-class StatusAcknowledged(View):
-    def get(self, request):
-
-        o_id = request.GET.get('id', None)
-
-        order_object = Order.objects.get(id=o_id)
-        order_object.status = "acknowledged"
-        res = order_object.save()
-
-        isSuccess = []
-
-        if (res):
-            isSuccess.append("status changed")
-        else:
-            isSuccess.append("not changed")
-
-        return JsonResponse(isSuccess, safe=False)
-
-
-class StatusDeleivered(View):
-    def get(self, request):
-
-        o_id = request.GET.get('id', None)
-
-        order_object = Order.objects.get(id=o_id)
-        order_object.status = "deleivered"
-        res = order_object.save()
-
-        isSuccess = []
-
-        if (res):
-            isSuccess.append("status changed")
-        else:
-            isSuccess.append("not changed")
-
-        return JsonResponse(isSuccess, safe=False)
-
-
-def view_messages(request):
-
-    messages_list = Message.objects.all()
-
-    print(messages_list)
-
-    context = {
-        'messages_list': messages_list,
-    }
-
-    return render(request, "superadmin/messages.html", context)
-
-
 def add_device(request):
     er_message = ''
     form = DeviceForm(request.POST or None)
 
     if request.POST:
-        print("It came in post request")
+        # print("It came in post request")
         print(form)
         print(form.errors)
         if form.is_valid():
@@ -217,7 +219,6 @@ class deletedevice(View):
 
 
 def view_devices(request):
-
     su_message = request.GET.get("message")
     engine_list = Device.objects.filter(Engine_supervisor=request.user)
 
@@ -230,61 +231,39 @@ def view_devices(request):
 
 
 def product_images(request, slug):
-
     su_message = request.GET.get("message")
     print(su_message)
 
     product_object = Product.objects.get(sku=slug)
 
     img = ProductImage.objects.filter(Product=product_object)
-    print(img)
-    print(img)
-    print(img)
-    print(img)
-    print(img)
 
     if request.method == 'POST':
         # Iterate over all the images came in request and add one by one
         for img_obj in request.FILES.getlist('product_images'):
             ProductImage.objects.create(Product=product_object, image=img_obj)
 
-
         return HttpResponseRedirect(request.path + '?message=new-images-added-successfully')
 
     # print(room_object.roomimages_set.all())  # This is how you reverse query
 
     context = {
-
         'su_message': su_message,
-
         'product_object': product_object
-
     }
-
     return render(request, "superadmin/product_images.html", context)
 
 
 def del_product_image(request, slug):
-
     product_image_object = ProductImage.objects.get(id=slug)
     product_sku = product_image_object.Product.sku
     ProductImage.objects.get(id=slug).delete()
 
-    print(product_sku)
-    print(product_sku)
-    print(product_sku)
-    print(product_sku)
-    print(product_sku)
-
-    return HttpResponseRedirect("/product-images/" + str(product_sku) +"?message=image-deleted-successfully")
+    return HttpResponseRedirect("/product-images/" + str(product_sku) + "?message=image-deleted-successfully")
 
 
 def del_all_product_images(request, slug):
-
     product_obj = Product.objects.get(id=slug)
 
     ProductImage.objects.filter(Product=product_obj).delete()
-    return HttpResponseRedirect("/product-images/" + str(product_obj.sku) +"?message=images-deleted-successfully")
-
-
-
+    return HttpResponseRedirect("/product-images/" + str(product_obj.sku) + "?message=images-deleted-successfully")

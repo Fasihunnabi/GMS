@@ -92,7 +92,7 @@ def order_finalize(request):
     form = OrderForm(request.POST or None, request.FILES or None)
 
     if request.POST:
-        print("It came in post request")
+        # print("It came in post request")
         print(request.POST)
         form = OrderForm(request.POST)
         print(form)
