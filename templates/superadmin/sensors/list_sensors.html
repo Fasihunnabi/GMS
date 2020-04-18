@@ -2,63 +2,56 @@
 {% load static %}
 
 {% block content %}
+
+
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Employee</h1>
+                    <h1>
+                        Sensor List
+                    </h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Employee</li>
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active">Sensor</li>
                     </ol>
                 </div>
             </div>
         </div><!-- /.container-fluid -->
     </section>
-
     <!-- Main content -->
     <section class="content">
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Employee Details</h3>
+                        <h3 class="card-title">Sensor Details</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table id="example1"
+                               class="table table-bordered table-striped">
                             <thead>
                             <tr>
-
-                                <th>User Name </th>
-                                <th>User Supervisor </th>
-                                <th>Appointed On</th>
-                                <th>Email</th>
-                                <th>Phone </th>
-                                <th>CNIC </th>
-                                <th>Employee Type</th>
+                                <th>Sensor Name</th>
+                                <th>Power Generator Name</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for obj in employee_list %}
+                            {% for obj in sensor_list %}
                                 <tr>
-                                    <td> {{ obj.emp_User.username }}</td>
-                                    <td> {{ obj.emp_supervisor.username}}</td>
-                                    <td> {{ obj.device_id.name}}</td>
-                                    <td> {{ obj.emp_User.email}}</td>
-                                    <td> {{ obj.phone}}</td>
-                                    <td> {{ obj.cnic}}</td>
-                                    <td> {{ obj.emp_type}}</td>
+                                    <td>{{ obj.sensor_name }}</td>
+                                    <td>{{ obj.device.name }}</td>
                                     <td>
-                                        <a href="/edit-employee/{{ obj.id }}"
+                                        <a href="/edit-sensor/{{ obj.id }}"
                                            type="button"
                                            class="btn btn-block btn-info btn-sm">Edit</a>
                                         <button data-id="{{ obj.id }}"
-                                                onclick="orderDelFunc(this)"
+                                                onclick="prodDelFunc(this)"
                                                 type="button"
                                                 class="btn btn-block btn-danger btn-sm">Delete
                                         </button>
@@ -74,55 +67,61 @@
             </div>
             <!-- /.col -->
         </div>
-        <!-- /.row -->
     </section>
-    <!-- /.content -->
-
 
 
 {% endblock content %}
 
 
-
 {% block js_script %}
 
     <script>
-
-     $(document).ready(function () {
+        $(document).ready(function () {
 
             const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: true,
-                    timer: 3000
-                });
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: true,
+                timer: 3000
+            });
 
-            {% if su_message == "order-deleted-success" %}
+            {% if su_message == "success" %}
 
                 Toast.fire({
                     type: 'success',
-                    title: 'Order Has Been Deleted Successfully.'
+                    title: 'Sensor Has Been Added Successfully.'
                 });
 
             {% endif %}
 
-            {% if su_message == "order-status-change-success" %}
+
+            {% if su_message == "update-success" %}
 
                 Toast.fire({
                     type: 'success',
-                    title: 'Order Status Has Been Updated Successfully.'
+                    title: 'Sensor Details Updated Successfully.'
+                });
+
+            {% endif %}
+
+
+            {% if su_message == "product-deleted-success" %}
+
+                Toast.fire({
+                    type: 'success',
+                    title: 'Sensor Deleted Successfully.'
                 });
 
             {% endif %}
 
         });
+
     </script>
 
     <script>
 
-        function orderDelFunc(elem) {
+        function prodDelFunc(elem) {
             id = $(elem).attr("data-id");
-            //alert(id)
 
             Swal.fire({
                 title: 'Are you sure?',
@@ -136,13 +135,13 @@
                 if (result.value) {
 
                     $.ajax({
-                        url: '{% url "delete_employee" %}',
+                        url: '{% url "deletesensor" %}',
                         data: {
                             'id': id,
                         },
                         dataType: 'json',
                         success: function (data) {
-                            window.location.href = "/employee?message=order-deleted-success"
+                            window.location.href = "/view-sensor?message=product-deleted-success"
                         },
                         error: function () {
                             console.log("Error in Loading Content")
@@ -152,12 +151,13 @@
 
                     Swal.fire(
                         'Deleted!',
-                        'Employee has been deleted.',
+                        'Sensor has been deleted.',
                         'success'
                     )
                 }
             })
         }
-
     </script>
+
+
 {% endblock js_script %}

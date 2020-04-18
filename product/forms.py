@@ -123,7 +123,6 @@ class user_register_form(UserCreationForm):
         self.fields['password2'].widget.attrs['class'] = 'form-control'
 
 
-
 class Employee_form(forms.ModelForm):
 
     class Meta:
@@ -134,8 +133,9 @@ class Employee_form(forms.ModelForm):
     def __init__(self, supervisor, *args, **kwargs):
         super(Employee_form, self).__init__(*args, **kwargs)
 
-        self.fields['dateOfBirth'].widget.attrs['placeholder'] = "Date of Birth ()"
+        self.fields['dateOfBirth'].widget.attrs['placeholder'] = "Date of Birth (yyyy-mm-dd)"
         self.fields['dateOfBirth'].widget.attrs['class'] = 'form-control'
+        self.fields['dateOfBirth'].widget.attrs['autocomplete'] = 'off'
 
         self.fields['phone'].widget.attrs['placeholder'] = 'Phone'
         self.fields['phone'].widget.attrs['class'] = 'form-control'
@@ -158,4 +158,20 @@ class Employee_form(forms.ModelForm):
             empty_label='--- Select Power Generator ---'
         )
 
-        self.fields['device_id'].widget.attrs['class'] = 'form-control'
+
+class Sensor_form(forms.ModelForm):
+
+    class Meta:
+        model = Sensors
+        fields = ['sensor_name', 'device']
+
+    def __init__(self, supervisor, *args, **kwargs):
+        super(Sensor_form, self).__init__(*args, **kwargs)
+        self.fields['sensor_name'].widget.attrs['class'] = 'form-control'
+
+        self.fields['device'] = forms.ModelChoiceField(
+            required=True, queryset=Device.objects.filter(Engine_supervisor=supervisor),
+            empty_label='--- Select Power Generator ---'
+        )
+
+        self.fields['device'].widget.attrs['class'] = 'form-control'

@@ -230,40 +230,77 @@ def view_devices(request):
     return render(request, "superadmin/viewengines.html", context)
 
 
-def product_images(request, slug):
+def add_sensor(request):
+    er_message = ''
+
+    form = Sensor_form(request.user, request.POST or None)
+    if request.POST:
+
+        if form.is_valid():
+            print("valid form")
+            form.save()
+
+            return HttpResponseRedirect("/view-sensor?message=success")
+        else:
+            print(form.errors)
+            er_message = form.errors
+
+    context = {
+        'form': form,
+        'er_message': er_message
+    }
+
+    return render(request, "superadmin/sensors/add_sensor.html", context)
+
+
+def edit_sensor(request, id):
+    er_message = ''
+
+    sensor_object = Sensors.objects.get(id=id)
+    form = Sensor_form(request.user, request.POST or None, instance=sensor_object)
+
+    if request.POST:
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/view-sensor?message=update-success")
+
+        else:
+            print(form.errors)
+            er_message = form.errors
+
+    context = {
+        'form': form,
+        'status': 'updatepage',
+        'er_message': er_message
+    }
+
+    return render(request, "superadmin/sensors/add_sensor.html", context)
+
+
+class deletesensor(View):
+    def get(self, request):
+
+        p_id = request.GET.get('id', None)
+
+        res = Sensors.objects.get(id=p_id).delete()
+        isSuccess = []
+
+        if (res):
+            print("dellllllllllllllllllllllllllllllllllll")
+            isSuccess.append("deleted")
+        else:
+            isSuccess.append("not deleted")
+
+        return JsonResponse(isSuccess, safe=False)
+
+
+def view_sensor(request):
     su_message = request.GET.get("message")
-    print(su_message)
-
-    product_object = Product.objects.get(sku=slug)
-
-    img = ProductImage.objects.filter(Product=product_object)
-
-    if request.method == 'POST':
-        # Iterate over all the images came in request and add one by one
-        for img_obj in request.FILES.getlist('product_images'):
-            ProductImage.objects.create(Product=product_object, image=img_obj)
-
-        return HttpResponseRedirect(request.path + '?message=new-images-added-successfully')
-
-    # print(room_object.roomimages_set.all())  # This is how you reverse query
+    sensor_list = Sensors.objects.filter(device__Engine_supervisor=request.user)
 
     context = {
         'su_message': su_message,
-        'product_object': product_object
+        'sensor_list': sensor_list
     }
-    return render(request, "superadmin/product_images.html", context)
 
-
-def del_product_image(request, slug):
-    product_image_object = ProductImage.objects.get(id=slug)
-    product_sku = product_image_object.Product.sku
-    ProductImage.objects.get(id=slug).delete()
-
-    return HttpResponseRedirect("/product-images/" + str(product_sku) + "?message=image-deleted-successfully")
-
-
-def del_all_product_images(request, slug):
-    product_obj = Product.objects.get(id=slug)
-
-    ProductImage.objects.filter(Product=product_obj).delete()
-    return HttpResponseRedirect("/product-images/" + str(product_obj.sku) + "?message=images-deleted-successfully")
+    return render(request, "superadmin/sensors/list_sensors.html", context)

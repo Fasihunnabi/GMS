@@ -84,6 +84,21 @@ class Employee(models.Model):
     emp_delete = models.BooleanField(default=False)
     emp_type = models.CharField(choices=(
         ('Electrician', 'Electrician'),
-        ('Mechanic', 'Mechanic'),
-        ('Supervisor', 'Supervisor')
+        ('Mechanic', 'Mechanic')
     ), max_length=20)
+
+
+class Sensors(models.Model):
+    sensor_name = models.CharField(choices=(
+        ('Voltage', 'Voltage'),
+        ('Oil level', 'Oil level'),
+        ('Temperature', 'Temperature')
+    ), max_length=20)
+    device = models.ForeignKey(Device, on_delete=models.CASCADE)
+
+
+class sensor_reading_details(models.Model):
+    sensor = models.ForeignKey(Sensors, on_delete=models.CASCADE)
+    reading = models.IntegerField()
+    created_time = models.DateTimeField(auto_now_add=True)
+    status = models.BooleanField(default=False)

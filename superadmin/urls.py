@@ -38,9 +38,10 @@ urlpatterns = [
     path('deletedevice/', login_required(views.deletedevice.as_view()), name="deletedevice"),  # AJAX to Delete Product
     path('view-devices', login_required(views.view_devices, login_url="/login/")),  # View Products
 
+    path('add-sensor/', login_required(views.add_sensor, login_url="/login/")),  # Add Device
+    path('edit-sensor/<slug:id>', login_required(views.edit_sensor, login_url="/login/")),  # Edit Products
+    path('deletesensor/', login_required(views.deletesensor.as_view()), name="deletesensor"),  # AJAX to Delete Product
+    path('view-sensor', login_required(views.view_sensor, login_url="/login/")),  # View Products
 
-    path('product-images/<slug:slug>', login_required(views.product_images, login_url="/login/")),
-    path('del-product-image/<slug:slug>', login_required(views.del_product_image, login_url="/login/")),
-    path('del-all-product-images/<slug:slug>', login_required(views.del_all_product_images, login_url="/login/")),
 
 ]
