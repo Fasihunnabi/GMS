@@ -24,30 +24,47 @@
                             <h3 class="card-title">GMS</h3>
                         </div>
                         <!-- /.card-header -->
-                        {% for sensor in sensor_list %}
+                        {% if sensor_list %}
+                            {% for sensor in sensor_list %}
 
-                            {% if sensor.sensor_name == "Voltage" %}
-                                <div class="row">
-                                    <div id="chartContainer_voltage" value="{{ sensor.device.name }}" style="padding:10px;height: 300px; width: 100%;"></div>
-                                </div>
-                            {% endif %}
-                            {% if sensor.sensor_name == "Oil level" %}
-                                <div class="row">
-                                    <div id="chartContainer_oil" value="{{ sensor.device.name }}"
-                                         style="padding:10px;height: 300px; width: 100%;">
+                                {% if sensor.sensor_name == "Voltage" %}
+                                    <div class="row">
+                                        <div id="chartContainer_voltage" value="{{ sensor.device.name }}"
+                                             style="padding:10px;height: 300px; width: 100%;"></div>
                                     </div>
-                                </div>
-                            {% endif %}
-                            {% if sensor.sensor_name == "Temperature" %}
-                                <div class="row">
-                                    <div id="chartContainer_temperature" value="{{ sensor.device.name }}"
-                                         style="padding:10px;height: 300px; width: 100%;">
+                                {% endif %}
+                                {% if sensor.sensor_name == "Oil level" %}
+                                    <div class="row">
+                                        <div id="chartContainer_oil" value="{{ sensor.device.name }}"
+                                             style="padding:10px;height: 300px; width: 100%;">
+                                        </div>
                                     </div>
+                                {% endif %}
+                                {% if sensor.sensor_name == "Temperature" %}
+                                    <div class="row">
+                                        <div id="chartContainer_temperature" value="{{ sensor.device.name }}"
+                                             style="padding:10px;height: 300px; width: 100%;">
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                            {% endfor %}
+                        {% else %}
+                            <div class="row">
+                                <div align="center" class="col-xs-12"><h3 class="box-title">Lets Create Generator
+                                    (which will contain sensors and Employees)</h3></div>
+                            </div><br>
+                            <div class="row">
+                                <h1 align="center" style="color: #0b93d5"> Welcome to GMS</h1>
+                            </div><br>
+                            <div class="row" align="center">
+                                <div class="col-4" style="align-content: center;width: 40%">
+                                    <a href="/add-device/" type="button"
+                                       class="btn btn-block btn-primary ">Lets Create Generator</a>
                                 </div>
-                            {% endif %}
+                            </div><br>
 
-                        {% endfor %}
-
+                        {% endif %}
 
 
                         <!-- /.card-body -->
