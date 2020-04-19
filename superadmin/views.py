@@ -70,7 +70,7 @@ def index(request):
 
     context = {
         'su_message': su_message,
-        'device_list': device_list,
+        'device_id': sensor_list[0].device,
         'sensor_list': sensor_list
     }
 
@@ -375,3 +375,35 @@ def view_cases(request):
     }
 
     return render(request, "superadmin/cases/list_cases.html", context)
+
+
+
+class sensor_reading(View):
+    def get(self, request):
+
+        p_id = request.GET.get('id', None)
+        reading = int(request.GET.get('s_reading', None))
+
+        res = Sensors.objects.get(id=p_id)
+
+        s_r_obj = sensor_reading_details.objects.create(sensor=res, reading=reading)
+        isSuccess = []
+        emp_list = Employee.objects.filter(device_id=s_r_obj.sensor.device)
+
+        if(res.max_reading <= reading):
+            print("dell")
+            print("dell")
+            for obj in emp_list:
+                if s_r_obj.sensor.sensor_name == "Voltage" and obj.emp_type == "Electrician":
+                    emp_obj = obj
+                if (s_r_obj.sensor.sensor_name == "Oil level" or s_r_obj.sensor.sensor_name == "Temperature") and obj.emp_type == "Mechanic":
+                    emp_obj = obj
+
+            case.objects.create(reading=s_r_obj.reading, sensor=s_r_obj.sensor, device=s_r_obj.sensor.device,
+                                emp_supervisor=s_r_obj.sensor.device.Engine_supervisor,
+                                emp_on_duty=emp_obj, status="1")
+            isSuccess.append("success")
+        else:
+            isSuccess.append("fail")
+
+        return JsonResponse(isSuccess, safe=False)

@@ -163,11 +163,12 @@ class Sensor_form(forms.ModelForm):
 
     class Meta:
         model = Sensors
-        fields = ['sensor_name', 'device']
+        fields = ['sensor_name', 'device', 'max_reading']
 
     def __init__(self, supervisor, *args, **kwargs):
         super(Sensor_form, self).__init__(*args, **kwargs)
         self.fields['sensor_name'].widget.attrs['class'] = 'form-control'
+        self.fields['max_reading'].widget.attrs['class'] = 'form-control'
 
         self.fields['device'] = forms.ModelChoiceField(
             required=True, queryset=Device.objects.filter(Engine_supervisor=supervisor),

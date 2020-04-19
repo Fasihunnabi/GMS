@@ -98,6 +98,7 @@ class Sensors(models.Model):
         ('Temperature', 'Temperature')
     ), max_length=20)
     device = models.ForeignKey(Device, on_delete=models.CASCADE)
+    max_reading = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return str(self.sensor_name)
