@@ -39,6 +39,7 @@
                                 <th>Sensor ID</th>
                                 <th>Sensor Name</th>
                                 <th>Power Generator Name</th>
+                                <th>Maximum Reading</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
@@ -48,6 +49,7 @@
                                     <td>{{ obj.id }}</td>
                                     <td>{{ obj.sensor_name }}</td>
                                     <td>{{ obj.device.name }}</td>
+                                    <td>{{ obj.max_reading }}</td>
                                     <td>
                                         <a href="/edit-sensor/{{ obj.id }}"
                                            type="button"
