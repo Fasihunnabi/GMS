@@ -68,8 +68,14 @@ def index(request):
         sensor_list = Sensors.objects.filter(device__Engine_supervisor=request.user)
         device_obj = sensor_list[0].device
     except:
-        sensor_list = None
-        device_obj = None
+        try:
+            emp_obj = Employee.objects.get(emp_User=request.user)
+            sensor_list = Sensors.objects.filter(device=emp_obj.device_id)
+            device_obj = emp_obj.device_id
+        except:
+            sensor_list = None
+            device_obj = None
+
 
     context = {
         'su_message': su_message,
@@ -371,6 +377,8 @@ def edit_case(request, id):
 def view_cases(request):
     su_message = request.GET.get("message")
     case_list = case.objects.filter(device__Engine_supervisor=request.user)
+    if not case_list:
+        case_list = case.objects.filter(emp_on_duty=request.user)
 
     context = {
         'su_message': su_message,
@@ -406,6 +414,7 @@ class sensor_reading(View):
             case.objects.create(reading=s_r_obj.reading, sensor=s_r_obj.sensor, device=s_r_obj.sensor.device,
                                 emp_supervisor=s_r_obj.sensor.device.Engine_supervisor,
                                 emp_on_duty=emp_obj.emp_User, status="1")
+            print("annnsanasj")
             isSuccess.append("success")
         else:
             isSuccess.append("fail")
@@ -424,7 +433,6 @@ class case_exist(View):
             case_obj = None
 
         isSuccess = []
-
 
         if (case_obj):
             isSuccess.append("success")
