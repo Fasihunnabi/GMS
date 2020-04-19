@@ -66,12 +66,14 @@ def index(request):
     print(su_message)
     try:
         sensor_list = Sensors.objects.filter(device__Engine_supervisor=request.user)
+        device_obj = sensor_list[0].device
     except:
         sensor_list = None
+        device_obj = None
 
     context = {
         'su_message': su_message,
-        'd_id': sensor_list[0].device,
+        'd_id': device_obj,
         'sensor_list': sensor_list
     }
 
