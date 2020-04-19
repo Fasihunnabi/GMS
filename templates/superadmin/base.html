@@ -1,4 +1,5 @@
 {% load static %}
+{% load content_tags %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -73,7 +74,10 @@
                          alt="User Image">
                 </div>
                 <div class="info">
-                    <a href="#" class="d-block"><b>Supervisor</b></a>
+                    <a href="#" class="d-block"><b>
+                        {% if request.user.id|is_employee %}
+                        Supervisor
+                        {% endif %}{{ request.user }}</b></a>
                 </div>
             </div>
 
@@ -92,81 +96,83 @@
                             </p>
                         </a>
                     </li>
-                    <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon far fa-circle nav-icon"></i>
-                            <p>
-                                Manage Power Engine
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/add-device" class="nav-link">
-                                    <i class="far fa fa-plus nav-icon"></i>
-                                    <p>Add</p>
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/view-devices" class="nav-link">
-                                    <i class="far fa fa-list-alt nav-icon"></i>
-                                    <p>View</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa fa-users"></i>
-                            <p>
-                                Employees
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/add-employee" class="nav-link">
-                                    <i class="fas fa fa-user-plus nav-icon"></i>
-                                    <p>Add</p>
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/employee" class="nav-link">
-                                    <i class="far fa fa-list-alt nav-icon"></i>
-                                    <p>View</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon far fa-circle nav-icon"></i>
-                            <p>
-                                Manage Sensors
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/add-sensor" class="nav-link">
-                                    <i class="far fa fa-plus nav-icon"></i>
-                                    <p>Add</p>
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/view-sensor" class="nav-link">
-                                    <i class="far fa fa-list-alt nav-icon"></i>
-                                    <p>View</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                    {% if request.user.id|is_employee %}
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon far fa-circle nav-icon"></i>
+                                <p>
+                                    Manage Power Engine
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/add-device" class="nav-link">
+                                        <i class="far fa fa-plus nav-icon"></i>
+                                        <p>Add</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/view-devices" class="nav-link">
+                                        <i class="far fa fa-list-alt nav-icon"></i>
+                                        <p>View</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa fa-users"></i>
+                                <p>
+                                    Employees
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/add-employee" class="nav-link">
+                                        <i class="fas fa fa-user-plus nav-icon"></i>
+                                        <p>Add</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/employee" class="nav-link">
+                                        <i class="far fa fa-list-alt nav-icon"></i>
+                                        <p>View</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon far fa-circle nav-icon"></i>
+                                <p>
+                                    Manage Sensors
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/add-sensor" class="nav-link">
+                                        <i class="far fa fa-plus nav-icon"></i>
+                                        <p>Add</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/view-sensor" class="nav-link">
+                                        <i class="far fa fa-list-alt nav-icon"></i>
+                                        <p>View</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% endif %}
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa fa-bullhorn"></i>
