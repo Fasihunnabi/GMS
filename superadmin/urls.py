@@ -49,4 +49,6 @@ urlpatterns = [
 
     path('sensor_reading/', login_required(views.sensor_reading.as_view()), name="sensor_reading"),  # AJAX to Delete Product
 
+    path('case_exist/', login_required(views.case_exist.as_view()), name="case_exist"),  # AJAX to Delete Product
+
 ]

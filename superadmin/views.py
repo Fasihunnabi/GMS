@@ -71,7 +71,7 @@ def index(request):
 
     context = {
         'su_message': su_message,
-        'device_id': sensor_list[0].device,
+        'd_id': sensor_list[0].device,
         'sensor_list': sensor_list
     }
 
@@ -386,13 +386,14 @@ class sensor_reading(View):
         reading = int(request.GET.get('s_reading', None))
 
         res = Sensors.objects.get(id=p_id)
+        print(res)
+        print(res)
 
         s_r_obj = sensor_reading_details.objects.create(sensor=res, reading=reading)
         isSuccess = []
         emp_list = Employee.objects.filter(device_id=s_r_obj.sensor.device)
 
         if(res.max_reading <= reading):
-            print("dell")
             print("dell")
             for obj in emp_list:
                 if s_r_obj.sensor.sensor_name == "Voltage" and obj.emp_type == "Electrician":
@@ -402,7 +403,28 @@ class sensor_reading(View):
 
             case.objects.create(reading=s_r_obj.reading, sensor=s_r_obj.sensor, device=s_r_obj.sensor.device,
                                 emp_supervisor=s_r_obj.sensor.device.Engine_supervisor,
-                                emp_on_duty=emp_obj, status="1")
+                                emp_on_duty=emp_obj.emp_User, status="1")
+            isSuccess.append("success")
+        else:
+            isSuccess.append("fail")
+
+        return JsonResponse(isSuccess, safe=False)
+
+
+class case_exist(View):
+    def get(self, request):
+
+        d_id = request.GET.get('id', None)
+        try:
+            device_obj = Device.objects.get(id=d_id, Engine_supervisor=request.user)
+            case_obj = case.objects.filter(device=device_obj, status="1").exists()
+        except:
+            case_obj = None
+
+        isSuccess = []
+
+
+        if (case_obj):
             isSuccess.append("success")
         else:
             isSuccess.append("fail")

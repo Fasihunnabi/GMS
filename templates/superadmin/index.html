@@ -67,99 +67,137 @@
 {% block js_script %}
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script>
-    function f(chart_div, device_title, graph_title, max) {
-        var dps = []; // dataPoints
-        var chart = new CanvasJS.Chart(chart_div, {
-            title: {
-                text: device_title
-            },
-            axisX: {
+        {% for sensor in sensor_list %}
+            {% if sensor.sensor_name == "Voltage" %}
+                var v_id = {{ sensor.id }}
+            {% endif %}
 
-            },
-            axisY: {
-                includeZero: false,
-                title: graph_title,
-                maximum: 100,
-                minimum:20
-            },
-            data: [{
-                type: "line",
-                dataPoints: dps
-            }]
-        });
+            {% if sensor.sensor_name == "Oil level" %}
+                var o_id = {{ sensor.id }}
+            {% endif %}
 
-        var xVal = 0;
-        var yVal = 100;
-        var updateInterval = 2000;
-        var dataLength = 20; // number of dataPoints visible at any point
-        var temp=0;
-        var updateChart = function (count) {
+            {% if sensor.sensor_name == "Temperature" %}
+                var t_id = {{ sensor.id }}
+            {% endif %}
+        {% endfor %}
 
-            count = count || 1;
-
-            for (var j = 0; j < count; j++) {
-                yVal = Math.round(5 + Math.random() * 20)+max;
-                temp =yVal;
-                dps.push({
-                    x: xVal,
-                    y: yVal
-                });
-                xVal++;
-            }
-
-            if (dps.length > dataLength) {
-                dps.shift();
-            }
-
-            chart.render();
-        };
-
-        updateChart(dataLength);
-        setInterval(function () {
-            updateChart()
-            sensor_reading(3, temp)
-        }, updateInterval);
-
-    }
-    function sensor_reading(s_id, reading) {
-         const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                timer: 3000
+        function f(chart_div, device_title, graph_title,s_id, max) {
+            var dps = []; // dataPoints
+            var chart = new CanvasJS.Chart(chart_div, {
+                title: {
+                    text: device_title
+                },
+                axisX: {},
+                axisY: {
+                    includeZero: false,
+                    title: graph_title,
+                    maximum: 100,
+                    minimum: 10
+                },
+                data: [{
+                    type: "line",
+                    dataPoints: dps
+                }]
             });
-        $.ajax({
-            url: '{% url "sensor_reading" %}',
-            data: {
-                'id': s_id,
-                's_reading': reading
-            },
-            dataType: 'json',
-            success: function (data) {
-                if(data == "success") {
-                    Toast.fire({
-                        type: 'success',
-                        title: 'Sensor Value sent Successfully.'
+
+            var xVal = 0;
+            var yVal = 100;
+            var updateInterval = 2000;
+            var dataLength = 20; // number of dataPoints visible at any point
+            var temp = 0;
+            var updateChart = function (count) {
+
+                count = count || 1;
+
+                for (var j = 0; j < count; j++) {
+                    yVal = Math.round(5 + Math.random() * 20) + max;
+                    temp = yVal;
+                    dps.push({
+                        x: xVal,
+                        y: yVal
                     });
+                    xVal++;
                 }
 
-            },
-            error: function () {
-                console.log("Error in Loading Content")
-            }
-        });
-    }
+                if (dps.length > dataLength) {
+                    dps.shift();
+                }
 
-    if ($('#chartContainer_temperature').length)         // use this if you are using id to check
-    {
-        f("chartContainer_temperature",$('#chartContainer_temperature').val(),"Temperature Of Generator", 40);
-    }
-    if ($('#chartContainer_oil').length)         // use this if you are using id to check
-    {
-        f("chartContainer_oil",$('#chartContainer_oil').val(),"Oil Level Of Generator", 10);
-    }
-    if ($('#chartContainer_voltage').length)         // use this if you are using id to check
-    {
-        f("chartContainer_voltage",$('#chartContainer_voltage').val(),"Voltage Of Generator", 50);
-    }
+                chart.render();
+            };
+
+            updateChart(dataLength);
+            setInterval(function () {
+                updateChart()
+                sensor_reading(s_id, temp)
+            }, updateInterval);
+
+        }
+
+        function sensor_reading(s_id, reading) {
+
+            $.ajax({
+                url: '{% url "sensor_reading" %}',
+                data: {
+                    'id': s_id,
+                    's_reading': reading
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data == "success") {
+
+                    }
+
+                },
+                error: function () {
+                    console.log("Error in Loading Content")
+                }
+            });
+        }
+
+        if ($('#chartContainer_temperature').length)         // use this if you are using id to check
+        {
+            f("chartContainer_temperature", $('#chartContainer_temperature').val(), "Temperature Of Generator", t_id, 40);
+        }
+        if ($('#chartContainer_oil').length)         // use this if you are using id to check
+        {
+            f("chartContainer_oil", $('#chartContainer_oil').val(), "Oil Level Of Generator",o_id, 10);
+        }
+        if ($('#chartContainer_voltage').length)         // use this if you are using id to check
+        {
+            f("chartContainer_voltage", $('#chartContainer_voltage').val(), "Voltage Of Generator", v_id, 50);
+        }
+
+        function find_casepending() {
+            $.ajax({
+                url: '{% url "case_exist" %}',
+                data: {
+                    'id': {{ d_id.id }}
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data == "success") {
+                        Swal.fire({
+                            title: 'Case Pending',
+                            text: "Kindly review case and assign to some one.",
+                            type: 'question',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, Submit!'
+                        }).then((result) => {
+                            window.location.href = "/view-cases"
+
+                        })
+                    }
+                },
+                error: function () {
+                    console.log("Error in Loading Content")
+                }
+            });
+        }
+        setInterval(function () {
+            find_casepending();
+        }, 2000);
     </script>
 {% endblock js_script %}
