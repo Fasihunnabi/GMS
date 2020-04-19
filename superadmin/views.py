@@ -64,9 +64,10 @@ def logout(request):
 def index(request):
     su_message = request.GET.get("message")
     print(su_message)
-
-    device_list = Device.objects.filter(Engine_supervisor=request.user)
-    sensor_list = Sensors.objects.filter(device__Engine_supervisor=request.user)
+    try:
+        sensor_list = Sensors.objects.filter(device__Engine_supervisor=request.user)
+    except:
+        sensor_list = None
 
     context = {
         'su_message': su_message,

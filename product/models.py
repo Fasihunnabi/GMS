@@ -70,7 +70,7 @@ class Device(models.Model):
     Dry_Weight = models.IntegerField()
 
     def __str__(self):
-        return str(self.name)
+        return str(self.name) + " | " + str(self.owned_by)
 
 class Employee(models.Model):
     emp_User = models.ForeignKey(User, on_delete=models.CASCADE, related_name="emp_user")
