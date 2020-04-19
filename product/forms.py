@@ -175,3 +175,24 @@ class Sensor_form(forms.ModelForm):
         )
 
         self.fields['device'].widget.attrs['class'] = 'form-control'
+
+
+class case_form(forms.ModelForm):
+    class Meta:
+        model = case
+        fields = ['reading', 'device', 'sensor', 'emp_supervisor', 'emp_on_duty', 'status']
+
+    def __init__(self, supervisor, *args, **kwargs):
+        super(case_form, self).__init__(*args, **kwargs)
+        self.fields['reading'].widget.attrs['class'] = 'form-control'
+        self.fields['sensor'].widget.attrs['class'] = 'form-control'
+        self.fields['emp_supervisor'].widget.attrs['class'] = 'form-control'
+        self.fields['emp_on_duty'].widget.attrs['class'] = 'form-control'
+        self.fields['status'].widget.attrs['class'] = 'form-control'
+
+        self.fields['device'] = forms.ModelChoiceField(
+            required=True, queryset=Device.objects.filter(Engine_supervisor=supervisor),
+            empty_label='--- Select Power Generator ---'
+        )
+
+        self.fields['device'].widget.attrs['class'] = 'form-control'

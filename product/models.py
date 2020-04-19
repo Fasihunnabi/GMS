@@ -87,6 +87,9 @@ class Employee(models.Model):
         ('Mechanic', 'Mechanic')
     ), max_length=20)
 
+    def __str__(self):
+        return str(self.emp_User.username)
+
 
 class Sensors(models.Model):
     sensor_name = models.CharField(choices=(
@@ -96,9 +99,34 @@ class Sensors(models.Model):
     ), max_length=20)
     device = models.ForeignKey(Device, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return str(self.sensor_name)
 
 class sensor_reading_details(models.Model):
     sensor = models.ForeignKey(Sensors, on_delete=models.CASCADE)
     reading = models.IntegerField()
     created_time = models.DateTimeField(auto_now_add=True)
     status = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.reading)
+
+
+class case(models.Model):
+    reading = models.IntegerField()
+    sensor = models.ForeignKey(Sensors, on_delete=models.CASCADE)
+    device = models.ForeignKey(Device, on_delete=models.CASCADE)
+    emp_supervisor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="case_emp_supervisor")
+    emp_on_duty = models.ForeignKey(User, on_delete=models.CASCADE, related_name="case_emp_on_duty")
+    status = models.CharField(choices=(
+        ('1', 'Created'),
+        ('2', 'Assigned'),
+        ('3', 'Under Process'),
+        ('4', 'Completed')
+    ), max_length=30)
+
+    def __str__(self):
+        return str(self.status)
+
+    def email_alert(self):
+        emp_list = Employee.objects.get(device_id=self.device)

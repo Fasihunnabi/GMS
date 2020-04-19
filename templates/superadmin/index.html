@@ -5,49 +5,132 @@
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-12">
-            <h1>WELCOME</h1>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-12">
+                    <h1>WELCOME</h1>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
-            <div class="card card-primary">
-              <div class="card-header">
-                <h3 class="card-title">GMS</h3>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-sm-12">
-                    <div class="position-relative p-3 bg-gray" style="height: 180px">
-                      <div class="ribbon-wrapper ribbon-xl">
-                        <div class="ribbon bg-danger text-xl">
-                          GMS
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">GMS</h3>
                         </div>
-                      </div>
+                        <!-- /.card-header -->
+                        {% for sensor in sensor_list %}
 
+                            {% if sensor.sensor_name == "Voltage" %}
+                                <div class="row">
+                                    <div id="chartContainer_voltage" value="{{ sensor.device.name }}" style="padding:10px;height: 300px; width: 100%;"></div>
+                                </div>
+                            {% endif %}
+                            {% if sensor.sensor_name == "Oil level" %}
+                                <div class="row">
+                                    <div id="chartContainer_oil" value="{{ sensor.device.name }}"
+                                         style="padding:10px;height: 300px; width: 100%;">
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if sensor.sensor_name == "Temperature" %}
+                                <div class="row">
+                                    <div id="chartContainer_temperature" value="{{ sensor.device.name }}"
+                                         style="padding:10px;height: 300px; width: 100%;">
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                        {% endfor %}
+
+
+
+                        <!-- /.card-body -->
                     </div>
-                  </div>
+                    <!-- /.card -->
                 </div>
-              </div>
-              <!-- /.card-body -->
+                <!-- /.col -->
             </div>
-            <!-- /.card -->
-          </div>
-          <!-- /.col -->
+            <!-- /.row -->
         </div>
-        <!-- /.row -->
-      </div>
-      <!-- /.container-fluid -->
+        <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
 
 {% endblock content %}
+
+{% block js_script %}
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script>
+    function f(chart_div, device_title, graph_title) {
+        var dps = []; // dataPoints
+        var chart = new CanvasJS.Chart(chart_div, {
+            title: {
+                text: device_title
+            },
+            axisX: {
+
+            },
+            axisY: {
+                includeZero: false,
+                title: graph_title,
+                maximum: 100,
+                minimum:50
+            },
+            data: [{
+                type: "line",
+                dataPoints: dps
+            }]
+        });
+
+        var xVal = 0;
+        var yVal = 100;
+        var updateInterval = 1000;
+        var dataLength = 20; // number of dataPoints visible at any point
+
+        var updateChart = function (count) {
+
+            count = count || 1;
+
+            for (var j = 0; j < count; j++) {
+                yVal = Math.round(5 + Math.random() * 10)+60;
+                dps.push({
+                    x: xVal,
+                    y: yVal
+                });
+                xVal++;
+            }
+
+            if (dps.length > dataLength) {
+                dps.shift();
+            }
+
+            chart.render();
+        };
+
+        updateChart(dataLength);
+        setInterval(function () {
+            updateChart()
+        }, updateInterval);
+
+    }
+
+    if ($('#chartContainer_temperature').length)         // use this if you are using id to check
+    {
+        f("chartContainer_temperature",$('#chartContainer_temperature').val(),"Temperature Of Generator");
+    }
+    if ($('#chartContainer_oil').length)         // use this if you are using id to check
+    {
+        f("chartContainer_oil",$('#chartContainer_oil').val(),"Oil Level Of Generator");
+    }
+    if ($('#chartContainer_voltage').length)         // use this if you are using id to check
+    {
+        f("chartContainer_voltage",$('#chartContainer_voltage').val(),"Voltage Of Generator");
+    }
+    </script>
+{% endblock js_script %}

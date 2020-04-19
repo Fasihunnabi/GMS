@@ -36,27 +36,30 @@
                                class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th>Sensor ID</th>
-                                <th>Sensor Name</th>
+                                <th>Case ID</th>
                                 <th>Power Generator Name</th>
+                                <th>Sensor</th>
+                                <th>Reading</th>
+                                <th>Supervisor</th>
+                                <th>Issue Resolver</th>
+                                <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for obj in sensor_list %}
+                            {% for obj in case_list %}
                                 <tr>
                                     <td>{{ obj.id }}</td>
-                                    <td>{{ obj.sensor_name }}</td>
                                     <td>{{ obj.device.name }}</td>
+                                    <td>{{ obj.sensor.sensor_name }}</td>
+                                    <td>{{ obj.reading }}</td>
+                                    <td>{{ obj.emp_supervisor.username }}</td>
+                                    <td>{{ obj.emp_on_duty.username }}</td>
+                                    <td>{{ obj.status }}</td>
                                     <td>
-                                        <a href="/edit-sensor/{{ obj.id }}"
+                                        <a href="/edit-case/{{ obj.id }}"
                                            type="button"
                                            class="btn btn-block btn-info btn-sm">Edit</a>
-                                        <button data-id="{{ obj.id }}"
-                                                onclick="prodDelFunc(this)"
-                                                type="button"
-                                                class="btn btn-block btn-danger btn-sm">Delete
-                                        </button>
                                     </td>
                                 </tr>
                             {% endfor %}

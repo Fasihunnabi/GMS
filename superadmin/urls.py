@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^login/$', views.login, name="login"),
     url(r'^logout/$', views.logout, name="logout"),
 
-    path('', login_required(TemplateView.as_view(template_name='superadmin/index.html'), login_url="/login/")),  #After Login yahan redirect krna
+    path('', login_required(views.index, login_url="/login/")),  #After Login yahan redirect krna
 
     path('employee', login_required(views.view_employee, login_url="/login/")),  # View Orders
     path('add-employee/', login_required(views.add_employee, login_url="/login/")),
@@ -43,5 +43,8 @@ urlpatterns = [
     path('deletesensor/', login_required(views.deletesensor.as_view()), name="deletesensor"),  # AJAX to Delete Product
     path('view-sensor', login_required(views.view_sensor, login_url="/login/")),  # View Products
 
+    path('view-cases', login_required(views.view_cases, login_url="/login/")),  # View Products
+    path('add-case', login_required(views.add_case, login_url="/login/")),  # Edit Products
+    path('edit-case/<slug:id>', login_required(views.edit_case, login_url="/login/")),  # Edit Products
 
 ]

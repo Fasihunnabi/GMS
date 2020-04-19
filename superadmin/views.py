@@ -61,6 +61,22 @@ def logout(request):
     return HttpResponseRedirect('/login/')
 
 
+def index(request):
+    su_message = request.GET.get("message")
+    print(su_message)
+
+    device_list = Device.objects.filter(Engine_supervisor=request.user)
+    sensor_list = Sensors.objects.filter(device__Engine_supervisor=request.user)
+
+    context = {
+        'su_message': su_message,
+        'device_list': device_list,
+        'sensor_list': sensor_list
+    }
+
+    return render(request, "superadmin/index.html", context)
+
+
 def view_employee(request):
     su_message = request.GET.get("message")
     print(su_message)
@@ -304,3 +320,58 @@ def view_sensor(request):
     }
 
     return render(request, "superadmin/sensors/list_sensors.html", context)
+
+
+def add_case(request):
+    er_message = ''
+    form = case_form(request.user, request.POST or None)
+
+    if request.POST:
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/view-cases?message=update-success")
+
+        else:
+            print(form.errors)
+            er_message = form.errors
+
+    context = {
+        'form': form,
+        'er_message': er_message
+    }
+    return render(request, "superadmin/cases/add_case.html", context)
+
+
+def edit_case(request, id):
+    er_message = ''
+
+    case_object = case.objects.get(id=id)
+    form = case_form(request.user, request.POST or None, instance=case_object)
+
+    if request.POST:
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/view-cases?message=update-success")
+
+        else:
+            print(form.errors)
+            er_message = form.errors
+
+    context = {
+        'form': form,
+        'status': 'updatepage',
+        'er_message': er_message
+    }
+    return render(request, "superadmin/cases/add_case.html", context)
+
+
+def view_cases(request):
+    su_message = request.GET.get("message")
+    case_list = case.objects.filter(device__Engine_supervisor=request.user)
+
+    context = {
+        'su_message': su_message,
+        'case_list': case_list
+    }
+
+    return render(request, "superadmin/cases/list_cases.html", context)
