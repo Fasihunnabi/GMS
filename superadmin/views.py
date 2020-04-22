@@ -65,7 +65,12 @@ def index(request):
     su_message = request.GET.get("message")
     print(su_message)
     try:
-        sensor_list = Sensors.objects.filter(device__Engine_supervisor=request.user)
+        device_obj = Device.objects.filter(Engine_supervisor=request.user)
+        for obj in device_obj:
+            sensor_list = Sensors.objects.filter(device=obj)
+            if sensor_list:
+                break
+
         device_obj = sensor_list[0].device
     except:
         try:
@@ -76,6 +81,29 @@ def index(request):
             sensor_list = None
             device_obj = None
 
+    context = {
+        'su_message': su_message,
+        'd_id': device_obj,
+        'sensor_list': sensor_list
+    }
+
+    return render(request, "superadmin/index.html", context)
+
+
+def index_with_id(request, device_id):
+    su_message = request.GET.get("message")
+    print(su_message)
+    try:
+        device_obj = Device.objects.get(id=device_id)
+        sensor_list = Sensors.objects.filter(device=device_id)
+    except:
+        try:
+            emp_obj = Employee.objects.get(emp_User=request.user)
+            sensor_list = Sensors.objects.filter(device=emp_obj.device_id)
+            device_obj = emp_obj.device_id
+        except:
+            sensor_list = None
+            device_obj = None
 
     context = {
         'su_message': su_message,

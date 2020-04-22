@@ -43,6 +43,7 @@
                                 <th>Phase</th>
                                 <th>AC Rated Output</th>
                                 <th>Fuel Tank Capacity</th>
+                                <th>Generator Charts</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
@@ -56,6 +57,11 @@
                                     <td>{{ obj.Phase }}</td>
                                     <td>{{ obj.AC_Rated_Output }}</td>
                                     <td>{{ obj.Fuel_Tank_Capacity }}</td>
+                                    <td>
+                                        <a href="/index/{{ obj.id }}"
+                                           type="button"
+                                           class="btn btn-block btn-info btn-sm">View Charts</a>
+                                    </td>
                                     <td>
                                         <a href="/edit-device/{{ obj.id }}"
                                            type="button"

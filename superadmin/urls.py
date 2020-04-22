@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^logout/$', views.logout, name="logout"),
 
     path('', login_required(views.index, login_url="/login/")),  #After Login yahan redirect krna
+    path('index/<slug:device_id>', login_required(views.index_with_id, login_url="/login/")),  #After Login yahan redirect krna
 
     path('employee', login_required(views.view_employee, login_url="/login/")),  # View Orders
     path('add-employee/', login_required(views.add_employee, login_url="/login/")),
