@@ -407,7 +407,8 @@ class deletecase(View):
 
         p_id = request.GET.get('id', None)
 
-        res = case.objects.filter(id__gte=p_id)
+        res = case.objects.get(id=p_id)
+        # res = case.objects.filter(id__gte=p_id)
         for a in res:
             a.delete()
         isSuccess = []
