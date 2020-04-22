@@ -60,6 +60,11 @@
                                         <a href="/edit-case/{{ obj.id }}"
                                            type="button"
                                            class="btn btn-block btn-info btn-sm">Edit</a>
+                                        <button data-id="{{ obj.id }}"
+                                                onclick="prodDelFunc(this)"
+                                                type="button"
+                                                class="btn btn-block btn-danger btn-sm">Delete
+                                        </button>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -94,7 +99,7 @@
 
                 Toast.fire({
                     type: 'success',
-                    title: 'Sensor Has Been Added Successfully.'
+                    title: 'Case Has Been Added Successfully.'
                 });
 
             {% endif %}
@@ -104,7 +109,7 @@
 
                 Toast.fire({
                     type: 'success',
-                    title: 'Sensor Details Updated Successfully.'
+                    title: 'Case Details Updated Successfully.'
                 });
 
             {% endif %}
@@ -114,7 +119,7 @@
 
                 Toast.fire({
                     type: 'success',
-                    title: 'Sensor Deleted Successfully.'
+                    title: 'Case Deleted Successfully.'
                 });
 
             {% endif %}
@@ -140,13 +145,13 @@
                 if (result.value) {
 
                     $.ajax({
-                        url: '{% url "deletesensor" %}',
+                        url: '{% url "deletecase" %}',
                         data: {
                             'id': id,
                         },
                         dataType: 'json',
                         success: function (data) {
-                            window.location.href = "/view-sensor?message=product-deleted-success"
+                            window.location.href = "/view-cases?message=product-deleted-success"
                         },
                         error: function () {
                             console.log("Error in Loading Content")
@@ -156,7 +161,7 @@
 
                     Swal.fire(
                         'Deleted!',
-                        'Sensor has been deleted.',
+                        'Case has been deleted.',
                         'success'
                     )
                 }

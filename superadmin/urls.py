@@ -46,6 +46,7 @@ urlpatterns = [
 
     path('view-cases', login_required(views.view_cases, login_url="/login/")),  # View Products
     path('add-case', login_required(views.add_case, login_url="/login/")),  # Edit Products
+    path('deletecase/', login_required(views.deletecase.as_view()), name="deletecase"),  # AJAX to Delete Product
     path('edit-case/<slug:id>', login_required(views.edit_case, login_url="/login/")),  # Edit Products
 
     path('sensor_reading/', login_required(views.sensor_reading.as_view()), name="sensor_reading"),  # AJAX to Delete Product

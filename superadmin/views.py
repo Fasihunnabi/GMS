@@ -402,6 +402,25 @@ def edit_case(request, id):
     return render(request, "superadmin/cases/add_case.html", context)
 
 
+class deletecase(View):
+    def get(self, request):
+
+        p_id = request.GET.get('id', None)
+
+        res = case.objects.filter(id__gte=p_id)
+        for a in res:
+            a.delete()
+        isSuccess = []
+
+        if (res):
+            print("dellllllllllllllllllllllllllllllllllll")
+            isSuccess.append("deleted")
+        else:
+            isSuccess.append("not deleted")
+
+        return JsonResponse(isSuccess, safe=False)
+
+
 def view_cases(request):
     su_message = request.GET.get("message")
     case_list = case.objects.filter(device__Engine_supervisor=request.user)
