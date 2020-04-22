@@ -403,7 +403,9 @@ class sensor_reading(View):
         isSuccess = []
         emp_list = Employee.objects.filter(device_id=s_r_obj.sensor.device)
 
-        if(res.max_reading <= reading):
+        if ((res.max_reading <= reading and res.sensor_name == "Temperature") or (
+                res.max_reading >= reading and res.sensor_name == "Voltage")or (
+                res.max_reading >= reading and res.sensor_name == "Oil level")):
             print("dell")
             for obj in emp_list:
                 if s_r_obj.sensor.sensor_name == "Voltage" and obj.emp_type == "Electrician":

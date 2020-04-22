@@ -29,24 +29,31 @@
                                 {% for sensor in sensor_list %}
 
                                     {% if sensor.sensor_name == "Voltage" %}
-                                        <div class="row">
+                                        <div class="row"
+                                             style="max-width: 1050px; overflow-x: scroll; min-width: 1050px;">
                                             <div id="chartContainer_voltage" value="{{ sensor.device.name }}"
                                                  style="padding:10px;height: 300px; width: 100%;"></div>
                                         </div>
+                                        <br>
                                     {% endif %}
                                     {% if sensor.sensor_name == "Oil level" %}
-                                        <div class="row">
+                                        <div class="row"
+                                             style="max-width: 1050px; overflow-x: scroll; min-width: 1050px;">
                                             <div id="chartContainer_oil" value="{{ sensor.device.name }}"
                                                  style="padding:10px;height: 300px; width: 100%;">
                                             </div>
                                         </div>
+                                        <br>
                                     {% endif %}
                                     {% if sensor.sensor_name == "Temperature" %}
-                                        <div class="row">
+                                        <div class="row"
+                                             style="max-width: 1050px; overflow-x: scroll; min-width: 1050px;">
                                             <div id="chartContainer_temperature" value="{{ sensor.device.name }}"
                                                  style="padding:10px;height: 300px; width: 100%;">
                                             </div>
                                         </div>
+                                        <div class="clearfix"></div>
+
                                     {% endif %}
 
                                 {% endfor %}
@@ -99,7 +106,7 @@
             {% endif %}
         {% endfor %}
 
-        function f(chart_div, device_title, graph_title,s_id, max) {
+        function f(chart_div, device_title, graph_title, s_id, max) {
             var dps = []; // dataPoints
             var chart = new CanvasJS.Chart(chart_div, {
                 title: {
@@ -163,7 +170,16 @@
                 dataType: 'json',
                 success: function (data) {
                     if (data == "success") {
-
+                        Swal.fire({
+                            title: 'Case Pending',
+                            text: "Kindly review case and assign to some one.",
+                            type: 'question',
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, Submit!'
+                        }).then((result) => {
+                            window.location.href = "/view-cases"
+                        })
                     }
 
                 },
@@ -175,15 +191,15 @@
 
         if ($('#chartContainer_temperature').length)         // use this if you are using id to check
         {
-            f("chartContainer_temperature", $('#chartContainer_temperature').val(), "Temperature Of Generator", t_id, 40);
+            f("chartContainer_temperature", $('#chartContainer_temperature').val(), "Temperature Of Generator", t_id, 32);
         }
         if ($('#chartContainer_oil').length)         // use this if you are using id to check
         {
-            f("chartContainer_oil", $('#chartContainer_oil').val(), "Oil Level Of Generator",o_id, 10);
+            f("chartContainer_oil", $('#chartContainer_oil').val(), "Oil Level Of Generator", o_id, 15);
         }
         if ($('#chartContainer_voltage').length)         // use this if you are using id to check
         {
-            f("chartContainer_voltage", $('#chartContainer_voltage').val(), "Voltage Of Generator", v_id, 50);
+            f("chartContainer_voltage", $('#chartContainer_voltage').val(), "Voltage Of Generator", v_id, 215);
         }
 
         function find_casepending() {
@@ -212,6 +228,7 @@
                 }
             });
         }
+
         setInterval(function () {
             find_casepending();
         }, 2000);
