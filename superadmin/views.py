@@ -479,6 +479,8 @@ class sensor_reading(View):
                                 emp_supervisor=s_r_obj.sensor.device.Engine_supervisor,
                                 emp_on_duty=emp_obj.emp_User, status="1")
 
+            case_obj.case_alert_email()
+
             print("annnsanasj")
             isSuccess.append("success")
         else:

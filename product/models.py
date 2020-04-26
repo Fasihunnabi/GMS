@@ -1,6 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
+# environment variables
+username = 'fasih2649@gmail.com'
+password = 'fasih143@a'
 # Create your models here.
 
 
@@ -113,6 +119,27 @@ class sensor_reading_details(models.Model):
         return str(self.reading)
 
 
+def send_mail(text='Email Body', subject='Hello World', from_email='GMS Inc <fasih2649@gmail.com>',
+              to_emails=None, html=None):
+    assert isinstance(to_emails, list)
+    msg = MIMEMultipart('alternative')
+    msg['From'] = from_email
+    msg['To'] = ", ".join(to_emails)
+    msg['Subject'] = subject
+    txt_part = MIMEText(text, 'plain')
+    msg.attach(txt_part)
+    if html != None:
+        html_part = MIMEText(html, 'html')
+        msg.attach(html_part)
+    msg_str = msg.as_string()
+    # login to my smtp server
+    server = smtplib.SMTP(host='smtp.gmail.com', port=587)
+    server.ehlo()
+    server.starttls()
+    server.login(username, password)
+    server.sendmail(from_email, to_emails, msg_str)
+    server.quit()
+
 class case(models.Model):
     reading = models.IntegerField()
     sensor = models.ForeignKey(Sensors, on_delete=models.CASCADE)
@@ -129,5 +156,13 @@ class case(models.Model):
     def __str__(self):
         return str(self.status)
 
-    def email_alert(self):
-        emp_list = Employee.objects.get(device_id=self.device)
+    def case_alert_email(self):
+        print("Sending Email!!!!!!!")
+        sub = 'Case Alert For ' + str(self.device)
+        txt = 'Dear Employee there is some issue with {} regarding {} kindly check for it and update it'.format(
+            str(self.device), str(self.sensor.sensor_name))
+        email_list = []
+        # email_list.append(self.emp_supervisor)
+        email_list.append(self.emp_on_duty.email)
+        send_mail(text=txt, subject=sub, from_email='GMS Inc <fasih2649@gmail.com>',
+              to_emails=email_list, html=None)
