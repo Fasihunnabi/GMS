@@ -55,7 +55,17 @@
                                     <td>{{ obj.reading }}</td>
                                     <td>{{ obj.emp_supervisor.username }}</td>
                                     <td>{{ obj.emp_on_duty.username }}</td>
-                                    <td>{{ obj.status }}</td>
+                                    <td>
+                                        {% if obj.status == "1" %}
+                                            Created
+                                        {% elif obj.status == "2" %}
+                                            Assigned
+                                        {% elif obj.status == "3" %}
+                                            Under Process
+                                        {% elif obj.status == "4" %}
+                                            Completed
+                                        {% endif %}
+                                    </td>
                                     <td>
                                         <a href="/edit-case/{{ obj.id }}"
                                            type="button"

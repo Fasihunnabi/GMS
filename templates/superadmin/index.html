@@ -191,7 +191,7 @@
                             type: 'question',
                             confirmButtonColor: '#3085d6',
                             cancelButtonColor: '#d33',
-                            confirmButtonText: 'Yes, Submit!'
+                            confirmButtonText: 'Yes, View Cases!'
                         }).then((result) => {
                             window.location.href = "/view-cases"
                         })
@@ -214,7 +214,7 @@
         }
         if ($('#chartContainer_voltage').length)         // use this if you are using id to check
         {
-            f("chartContainer_voltage", $('#chartContainer_voltage').val(), "Voltage Of Generator", v_id, 215);
+            f("chartContainer_voltage", $('#chartContainer_voltage').val(), "Voltage Of Generator", v_id, 75);
         }
 
         function find_casepending() {

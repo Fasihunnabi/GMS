@@ -111,11 +111,17 @@ def index_with_id(request, device_id):
         except:
             sensor_list = None
             device_obj = None
+    cases_v = case.objects.filter(device=device_obj, sensor__sensor_name="Voltage").count()
+    cases_t = case.objects.filter(device=device_obj, sensor__sensor_name="Temperature").count()
+    cases_o = case.objects.filter(device=device_obj, sensor__sensor_name="Oil level").count()
 
     context = {
         'su_message': su_message,
         'd_id': device_obj,
-        'sensor_list': sensor_list
+        'sensor_list': sensor_list,
+        'c_n_o': cases_o,
+        'c_n_v': cases_v,
+        'c_n_t': cases_t
     }
 
     return render(request, "superadmin/index.html", context)
@@ -451,7 +457,8 @@ class sensor_reading(View):
         reading = int(request.GET.get('s_reading', None))
 
         res = Sensors.objects.get(id=p_id)
-        print(res)
+        print("max Reading of the sensor", res.max_reading)
+        print("Reading From  Chart", reading)
         print(res)
 
         s_r_obj = sensor_reading_details.objects.create(sensor=res, reading=reading)
@@ -468,9 +475,10 @@ class sensor_reading(View):
                 if (s_r_obj.sensor.sensor_name == "Oil level" or s_r_obj.sensor.sensor_name == "Temperature") and obj.emp_type == "Mechanic":
                     emp_obj = obj
 
-            case.objects.create(reading=s_r_obj.reading, sensor=s_r_obj.sensor, device=s_r_obj.sensor.device,
+            case_obj = case.objects.create(reading=s_r_obj.reading, sensor=s_r_obj.sensor, device=s_r_obj.sensor.device,
                                 emp_supervisor=s_r_obj.sensor.device.Engine_supervisor,
                                 emp_on_duty=emp_obj.emp_User, status="1")
+
             print("annnsanasj")
             isSuccess.append("success")
         else:
