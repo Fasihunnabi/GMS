@@ -170,6 +170,26 @@ def add_employee(request):
     return render(request, "superadmin/Employee/add_employee.html", context)
 
 
+def user_creation(request):
+    su_message = request.GET.get("message")
+    user_form = user_register_form(request.POST or None)
+    if request.POST:
+        # print("It came in post request")
+        if user_form.is_valid():
+            user_obj = user_form.save()
+
+            return HttpResponseRedirect('/login/')
+
+        else:
+            print(user_form.errors)
+
+    context = {
+        'register_form': user_form,
+    }
+
+    return render(request, "superadmin/usercreation.html", context)
+
+
 def edit_employee(request, id):
     su_message = request.GET.get("message")
     emp_obj = Employee.objects.get(id=id)
