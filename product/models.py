@@ -5,8 +5,8 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 # environment variables
-username = 'fasih2649@gmail.com'
-password = 'fasih143@a'
+username = 'gmsystem2020@gmail.com'
+password = 'ggmmss@1122'
 # Create your models here.
 
 
@@ -119,7 +119,7 @@ class sensor_reading_details(models.Model):
         return str(self.reading)
 
 
-def send_mail(text='Email Body', subject='Hello World', from_email='GMS Inc <fasih2649@gmail.com>',
+def send_mail(text='Email Body', subject='Hello World', from_email='GMS Inc <gmsystem2020@gmail.com>',
               to_emails=None, html=None):
     assert isinstance(to_emails, list)
     msg = MIMEMultipart('alternative')
@@ -164,5 +164,5 @@ class case(models.Model):
         email_list = []
         # email_list.append(self.emp_supervisor)
         email_list.append(self.emp_on_duty.email)
-        send_mail(text=txt, subject=sub, from_email='GMS Inc <fasih2649@gmail.com>',
+        send_mail(text=txt, subject=sub, from_email='GMS Inc <gmsystem2020@gmail.com>',
               to_emails=email_list, html=None)

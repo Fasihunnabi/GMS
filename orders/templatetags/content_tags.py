@@ -13,3 +13,9 @@ def is_employee(id):
     else:
         # if User.objects.filter(username='admin').exists() or User.objects.filter(username='localgms').exists():
         return True
+
+@register.filter(name='formattr')
+def attr(obj, arg1):
+    att, value = arg1.split("=")
+    obj.field.widget.attrs[att] = value
+    return obj

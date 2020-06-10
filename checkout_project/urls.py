@@ -24,14 +24,8 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # path('', TemplateView.as_view(template_name='base/base.html')),
-
-    path('order/', include('orders.urls')),
+    path('user_reset/', include('orders.urls')),
     path('', include('superadmin.urls')),
-
-
-    path('faqs/', TemplateView.as_view(template_name='pages/faqs.html')),
-    path('size-chart/', TemplateView.as_view(template_name='pages/size_chart.html')),
 
     path('send_message/',
          views.send_message.as_view(),

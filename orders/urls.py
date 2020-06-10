@@ -16,20 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from . import views
+from django.contrib.auth import views as auth_views
+
 
 urlpatterns = [
-
-    path('cart/',
-         views.cart.as_view(),
-         name="cart"),
-
-    path('delete_item_from_cart/',
-         views.delete_item_from_cart.as_view(),
-         name="delete_item_from_cart"),
-
-    path('finalize-order', views.order_finalize),
-
-
-    path('order-placed-successfully/<slug:slug>', views.order_placed_successfully),
-
+    path('', include('django.contrib.auth.urls')),
+    path('/password_reset/', auth_views.PasswordResetView.as_view()),
+    path('/password_reset/done/', auth_views.PasswordResetDoneView.as_view()),
+    path('/reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/',
+         auth_views.PasswordResetConfirmView.as_view()),
+    path('/reset/done/', auth_views.PasswordResetCompleteView.as_view()),
 ]
