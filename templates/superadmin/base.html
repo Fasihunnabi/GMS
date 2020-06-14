@@ -20,6 +20,9 @@
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="{% static 'sweetalert2/bootstrap-4.min.css' %}">
     <!-- Toastr -->
+
+    <link rel="stylesheet"
+          href="{% static 'bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
     <link rel="stylesheet" href="{% static 'toast/toastr.min.css' %}">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
@@ -251,6 +254,7 @@
         });
     });
 </script>
+    <script src="{% static 'bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
 
 
 {% block js_script %}

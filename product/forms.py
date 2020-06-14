@@ -124,7 +124,12 @@ class user_register_form(UserCreationForm):
 
 
 class Employee_form(forms.ModelForm):
-
+    cnic = forms.IntegerField()
+    phone = forms.IntegerField()
+    dateOfBirth = forms.DateField(
+        widget=forms.DateInput(format='%m/%d/%Y'),
+        input_formats=('%m/%d/%Y',), required=False
+    )
     class Meta:
         model = Employee
         fields = ['device_id', 'dateOfBirth', 'phone', 'address', 'cnic', 'designation', 'emp_delete', 'emp_type']
@@ -133,7 +138,7 @@ class Employee_form(forms.ModelForm):
     def __init__(self, supervisor, *args, **kwargs):
         super(Employee_form, self).__init__(*args, **kwargs)
 
-        self.fields['dateOfBirth'].widget.attrs['placeholder'] = "Date of Birth (yyyy-mm-dd)"
+        self.fields['dateOfBirth'].widget.attrs['placeholder'] = "Date of Birth (mm/dd/yyyy)"
         self.fields['dateOfBirth'].widget.attrs['class'] = 'form-control'
         self.fields['dateOfBirth'].widget.attrs['autocomplete'] = 'off'
 

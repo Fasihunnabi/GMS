@@ -44,9 +44,13 @@
 
                                     <div class="form-group col-md-4">
                                          <label>Date of Birth</label>{{ form.dateOfBirth }}
+                                        <div class="errors" style="color: red">{{ form.dateOfBirth.errors }}</div>
+
                                     </div>
                                     <div class="form-group col-md-4">
                                          <label>CNIC</label>{{ form.cnic }}
+                                        <div class="errors" style="color: red">{{ form.cnic.errors }}</div>
+
                                     </div>
                                 </div>
 
@@ -57,11 +61,13 @@
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label>Phone</label>{{ form.phone }}
+                                        <div class="errors" style="color: red">{{ form.phone.errors }}</div>
+
                                     </div>
                                     <div class="form-group col-md-5">
                                         <label>Address</label>{{ form.address }}
                                         <div class="errors"
-                                             style="color: red">{{ register_form.address.errors }}</div>
+                                             style="color: red">{{ form.address.errors }}</div>
                                     </div>
                                 </div>
                                 {% if status %}
@@ -128,11 +134,13 @@
 {% block js_script %}
     <script>
         $('#id_device_id').addClass('form-control')
-        $("#id_dateOfBirth").datepicker({
-                dateFormat: 'yyyy/mm/dd',
-                autoclose: true,
-                orientation: 'bottom'
-            }
-        );
+        $(function () {
+            $("#id_dateOfBirth").datepicker({
+                    dateFormat: 'mm/dd/yyyy',
+                    autoclose: true,
+                    orientation: 'bottom'
+                }
+            )
+        });
     </script>
 {% endblock js_script %}
