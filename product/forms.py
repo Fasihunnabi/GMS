@@ -195,9 +195,13 @@ class case_form(forms.ModelForm):
         self.fields['emp_supervisor'].widget.attrs['class'] = 'form-control'
         self.fields['emp_on_duty'].widget.attrs['class'] = 'form-control'
         self.fields['status'].widget.attrs['class'] = 'form-control'
-
+        try:
+            supervisor_generattor = Employee.objects.get(emp_User=supervisor)
+            supervisor_generattor = supervisor_generattor.emp_supervisor
+        except:
+            supervisor_generattor = supervisor
         self.fields['device'] = forms.ModelChoiceField(
-            required=True, queryset=Device.objects.filter(Engine_supervisor=supervisor),
+            required=True, queryset=Device.objects.filter(Engine_supervisor=supervisor_generattor),
             empty_label='--- Select Power Generator ---'
         )
 
