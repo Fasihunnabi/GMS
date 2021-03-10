@@ -1,0 +1,78 @@
+{% load static %}
+{% load content_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Admin | GMS</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'adminLTE/all.min.css' %}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{% static 'adminLTE/dataTables.bootstrap4.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'adminLTE/adminlte.min.css' %}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{% static 'sweetalert2/bootstrap-4.min.css' %}">
+    <!-- Toastr -->
+
+    <link rel="stylesheet"
+          href="{% static 'bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
+    <link rel="stylesheet" href="{% static 'toast/toastr.min.css' %}">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    {% block css_script %}
+    {% endblock css_script %}
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper" style="border: 3px; border-color: red">
+    <!-- Content Wrapper. Contains page content -->
+    {% block content %}
+    {% endblock %}
+    <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="{% static 'adminLTE/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminLTE/bootstrap.bundle.min.js' %}"></script>
+<!-- DataTables -->
+<script src="{% static 'adminLTE/jquery.dataTables.js' %}"></script>
+<script src="{% static 'adminLTE/dataTables.bootstrap4.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'adminLTE/adminlte.min.js' %}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{% static 'adminLTE/demo.js' %}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'sweetalert2/sweetalert2.min.js' %}"></script>
+<!-- Toastr -->
+<script src="{% static 'toast/toastr.min.js' %}"></script>
+<!-- page script -->
+<script>
+    $(function () {
+        $("#example1").DataTable();
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+        });
+    });
+</script>
+    <script src="{% static 'bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+
+
+{% block js_script %}
+{% endblock js_script %}
+
+</body>
+</html>

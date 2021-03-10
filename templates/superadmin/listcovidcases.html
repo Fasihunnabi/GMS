@@ -1,0 +1,138 @@
+{% extends 'superadmin/covidbase.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>
+                        Covid Cases Details
+                    </h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Cases Details</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example1"
+                               class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Case No</th>
+
+                                <th>Report Date</th>
+
+                                <th>Date of Onset</th>
+
+                                <th>Gender</th>
+
+                                <th>Age</th>
+
+                                <th>Name of Hospital Admitted</th>
+
+                                <th>H D Deceased</th>
+
+                                <th>HK/Non-HK Resident</th>
+
+                                <th>Case Classification</th>
+
+                                <th>Confirmed Probable</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for obj in covid_case_list %}
+                                <tr>
+                                    <td>{{ obj.Case_no}}</td>
+
+                                    <td>{{ obj.Report_date}}</td>
+
+                                    <td>{{ obj.Date_of_onset}}</td>
+
+                                    <td>{{ obj.Gender}}</td>
+
+                                    <td>{{ obj.Age}}</td>
+
+                                    <td>{{ obj.Name_of_hospital}}</td>
+
+                                    <td>{{ obj.H_D_Deceased}}</td>
+
+                                    <td>{{ obj.HK_Non_HK_resident}}</td>
+
+                                    <td>{{ obj.Case_classification}}</td>
+
+                                    <td>{{ obj.Confirmed_probable}}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+    </section>
+{% endblock content %}
+
+{% block js_script %}
+
+    <script>
+        $(document).ready(function () {
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: true,
+                timer: 3000
+            });
+
+            {% if su_message == "success" %}
+
+                Toast.fire({
+                    type: 'success',
+                    title: 'Case Has Been Added Successfully.'
+                });
+
+            {% endif %}
+
+
+            {% if su_message == "update-success" %}
+
+                Toast.fire({
+                    type: 'success',
+                    title: 'Case Details Updated Successfully.'
+                });
+
+            {% endif %}
+
+
+            {% if su_message == "product-deleted-success" %}
+
+                Toast.fire({
+                    type: 'success',
+                    title: 'Case Deleted Successfully.'
+                });
+
+            {% endif %}
+
+        });
+
+    </script>
+
+{% endblock js_script %}
